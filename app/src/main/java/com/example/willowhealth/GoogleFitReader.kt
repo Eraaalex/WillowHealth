@@ -45,8 +45,8 @@ public class GoogleFitReader() {
                     .sumOf { it.getValue(Field.FIELD_STEPS).asInt() }
                 callback(
                     hashMapOf(
-                        endDate.date.toString() to hashMapOf(
-                            endDate.time.toString() to hashMapOf(
+                        endDate.getFormattingDate() to hashMapOf(
+                            endDate.getFormattingTime() to hashMapOf(
                                 "steps" to totalSteps
                             )
                         )

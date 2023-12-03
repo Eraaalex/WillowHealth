@@ -20,7 +20,7 @@ open class HealthDataManager {
     ): HashMap<String, HashMap<String, HashMap<String, Int>>> {
         return when (metric) {
             HealthMetrics.STEPS -> getStepsData(context)
-            HealthMetrics.CALORIES -> getCaloriesData()
+            HealthMetrics.CALORIES -> getCaloriesData(context)
         }
     }
 
@@ -28,7 +28,6 @@ open class HealthDataManager {
     private suspend fun getStepsData(context: Context): HashMap<String, HashMap<String, HashMap<String, Int>>> {
         val resultData: HashMap<String, HashMap<String, HashMap<String, Int>>> = hashMapOf()
         if (checkPermissionGoogleFit(context)) {
-            val endDate = Date()
             return suspendCoroutine { continuation ->
                 val endDate = Date()
                 googleFitReader.getSteps(context, endDate) { steps ->
@@ -44,7 +43,7 @@ open class HealthDataManager {
         return (GoogleSignIn.hasPermissions(account, GoogleFitReader.fitnessOptions))
     }
 
-    private fun getCaloriesData(): HashMap<String, HashMap<String, HashMap<String, Int>>> {
+    private fun getCaloriesData(context: Context): HashMap<String, HashMap<String, HashMap<String, Int>>> {
 
         return TODO("Provide the return value")
     }
