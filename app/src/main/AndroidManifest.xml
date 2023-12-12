@@ -6,6 +6,7 @@
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION"/>
 
     <application
+        android:name=".app.WillowHealth"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -20,7 +21,7 @@
 <!--            android:value="your_permission_key"/>-->
 
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
