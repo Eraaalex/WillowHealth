@@ -1,6 +1,6 @@
 package com.example.willowhealth
 
-enum class HealthMetrics {
+enum class HealthMetric {
     STEPS,
     CALORIES
 }

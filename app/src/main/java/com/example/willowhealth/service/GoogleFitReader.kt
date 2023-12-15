@@ -1,8 +1,9 @@
-package com.example.willowhealth
+package com.example.willowhealth.service
 
 import android.content.Context
 import android.util.Log
-import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.example.willowhealth.getFormattingTime
+import com.example.willowhealth.repository.AccountRepository
 import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataType
@@ -12,8 +13,20 @@ import com.google.android.gms.fitness.request.DataReadRequest
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
-public class GoogleFitReader() {
+typealias MetricWithValue =  HashMap<String, Int>
+typealias DateTimeWithMetric = HashMap<String, HashMap<String, MetricWithValue>>
 
+interface HealthReader {
+    fun getSteps(
+        endDate: Date,
+        callback: (DateTimeWithMetric) -> Unit
+    )
+}
+
+class GoogleFitReader(
+    private val context: Context,
+    private val accountRepository: AccountRepository
+) : HealthReader {
     companion object {
         val fitnessOptions = FitnessOptions.builder()
             .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
@@ -23,12 +36,11 @@ public class GoogleFitReader() {
 
     }
 
-    fun getSteps(
-        context: Context,
+    override fun getSteps(
         endDate: Date,
-        callback: (HashMap<String, HashMap<String, HashMap<String, Int>>>) -> Unit
+        callback: (DateTimeWithMetric) -> Unit
     ) {
-        val account = GoogleSignIn.getAccountForExtension(context, fitnessOptions)
+
         val startDate = Date(endDate.time - 3600000 * 5)
         val readRequest = DataReadRequest.Builder()
             .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
@@ -36,17 +48,18 @@ public class GoogleFitReader() {
             .bucketByTime(1, TimeUnit.DAYS)
             .build()
 
-        Fitness.getHistoryClient(context, account)
+        Fitness.getHistoryClient(context, accountRepository.get())
             .readData(readRequest)
             .addOnSuccessListener { response ->
                 val totalSteps = response.buckets
+                    .asSequence()
                     .flatMap { it.dataSets }
                     .flatMap { it.dataPoints }
                     .sumOf { it.getValue(Field.FIELD_STEPS).asInt() }
                 callback(
                     hashMapOf(
-                        endDate.getFormattingDate() to hashMapOf(
-                            endDate.getFormattingTime() to hashMapOf(
+                        endDate.getFormattingTime("yyyy-MM-dd") to hashMapOf(
+                            endDate.getFormattingTime("HH:mm") to hashMapOf(
                                 "steps" to totalSteps
                             )
                         )
@@ -55,13 +68,15 @@ public class GoogleFitReader() {
             }
             .addOnFailureListener { e ->
                 Log.d("WILLOW", "OnFailure()", e)
-                callback(hashMapOf(
-                    endDate.date.toString() to hashMapOf(
-                        endDate.time.toString() to hashMapOf(
-                            "steps" to 0
+                callback(
+                    hashMapOf(
+                        endDate.date.toString() to hashMapOf(
+                            endDate.time.toString() to hashMapOf(
+                                "steps" to 0
+                            )
                         )
                     )
-                )) // or handle the error appropriately
+                )
             }
 
     }

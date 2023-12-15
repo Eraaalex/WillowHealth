@@ -21,7 +21,7 @@
 <!--            android:value="your_permission_key"/>-->
 
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
