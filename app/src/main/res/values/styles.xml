@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DataTV" parent="Widget.AppCompat.TextView">
+        <item name="android:background">@drawable/modern_textview_bg</item>
+        <item name="android:padding">16dp</item>
+        <!-- Add any other text view styles you need here -->
+    </style>
+</resources>
