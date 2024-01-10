@@ -60,31 +60,22 @@ package com.example.willowhealth.presentation.main
 
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.willowhealth.presentation.MainScreen
+import com.example.willowhealth.presentation.Screen
 import com.example.willowhealth.ui.theme.WillowTheme
 import com.example.willowhealth.HealthMetric
 import com.example.willowhealth.app.WillowHealth
 import com.example.willowhealth.presentation.main.di.getMainModule
 //import com.example.willowhealth.ui.theme.WillowHealthTheme
-import com.example.willowhealth.ui.theme.WillowTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
@@ -103,7 +94,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen(viewModel = viewModel)
+                    Screen(viewModel = viewModel)
                 }
             }
         }
