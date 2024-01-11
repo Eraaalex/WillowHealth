@@ -1,6 +1,5 @@
-package com.example.willowhealth.ui.theme.components
+package com.example.willowhealth.presentation.ui.components.insights
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,24 +14,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.willowhealth.ui.theme.Green500
-import com.example.willowhealth.ui.theme.Green800
-import com.example.willowhealth.ui.theme.Green900
+import com.example.willowhealth.presentation.ui.theme.Green500
+import com.example.willowhealth.presentation.ui.theme.Green800
+import com.example.willowhealth.presentation.ui.theme.Green900
 
 /**  Steps Card **/
 
 @Composable
-fun Steps(value: Int = 0, normalValue: Int = 6000) {
+fun StepsCard(value: Int = 0, normalValue: Int = 6000) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(15.dp),
-        border = BorderStroke(0.dp, Color.Black),
-        elevation = 2.dp,
         backgroundColor = Green900
     ) {
         Row(
@@ -61,7 +57,7 @@ fun Steps(value: Int = 0, normalValue: Int = 6000) {
 @Preview
 @Composable
 fun StepsPreview() {
-    Steps(1000)
+    StepsCard(1000)
 }
 
 

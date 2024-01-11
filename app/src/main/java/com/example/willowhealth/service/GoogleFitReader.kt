@@ -9,6 +9,7 @@ import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.fitness.data.Field
 import com.google.android.gms.fitness.request.DataReadRequest
+import java.time.LocalDate
 
 import java.util.Date
 import java.util.concurrent.TimeUnit
@@ -18,6 +19,7 @@ typealias DateTimeWithMetric = HashMap<String, HashMap<String, MetricWithValue>>
 
 interface HealthReader {
     fun getSteps(
+        startDate: Date,
         endDate: Date,
         callback: (DateTimeWithMetric) -> Unit
     )
@@ -37,11 +39,10 @@ class GoogleFitReader(
     }
 
     override fun getSteps(
+        startDate: Date,
         endDate: Date,
         callback: (DateTimeWithMetric) -> Unit
     ) {
-
-        val startDate = Date(endDate.time - 3600000 * 5)
         val readRequest = DataReadRequest.Builder()
             .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
             .setTimeRange(startDate.time, endDate.time, TimeUnit.MILLISECONDS)

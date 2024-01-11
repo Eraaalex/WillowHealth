@@ -1,4 +1,4 @@
-package com.example.willowhealth.ui.theme.components
+package com.example.willowhealth.presentation.ui.components.insights
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -24,11 +24,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.willowhealth.ui.theme.LightBlue
-import com.example.willowhealth.ui.theme.WillowTheme
+import com.example.willowhealth.presentation.ui.theme.LightBlue
+import com.example.willowhealth.presentation.ui.theme.WillowTheme
 
 
-/**  Steps Card **/
+/**  Sleep Card **/
 
 @Composable
 fun Sleep(hours: Int = 0, mins :Int = 0, normalValue: Int = 8) {

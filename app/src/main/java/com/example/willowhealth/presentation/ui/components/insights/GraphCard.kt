@@ -1,4 +1,4 @@
-package com.example.willowhealth.ui.theme.components
+package com.example.willowhealth.presentation.ui.components.insights
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -29,8 +29,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.willowhealth.ui.theme.Grey500
-import com.example.willowhealth.ui.theme.Grey600
+import com.example.willowhealth.presentation.ui.theme.Grey500
+import com.example.willowhealth.presentation.ui.theme.Grey600
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

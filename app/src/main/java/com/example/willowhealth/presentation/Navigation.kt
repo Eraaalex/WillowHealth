@@ -8,55 +8,41 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.willowhealth.HealthMetric
 import com.example.willowhealth.presentation.main.MainViewModel
-import com.example.willowhealth.ui.theme.components.NavigationItems
-
-/** Navigation bar **/
+import com.example.willowhealth.presentation.ui.components.NavigationItems
+import com.example.willowhealth.presentation.ui.screens.ChatScreen
+import com.example.willowhealth.presentation.ui.screens.InsightsScreen
+import com.example.willowhealth.presentation.ui.screens.SettingsScreen
 
 @Composable
-fun Screen(viewModel: MainViewModel) {
+fun Navigation(viewModel: MainViewModel, ) {
     val navController = rememberNavController()
     val stepsData = viewModel.steps.observeAsState()
 
     Scaffold(
         bottomBar = {
             BottomNavigation {
-                Log.d("MyApp", "openScreenIndex.value: ")
-                val openScreenIndex = remember {
-                    mutableStateOf(0)
-                }
-                val navigationList = listOf(
-                    NavigationItems.Insights,
-                    NavigationItems.Chat,
-                    NavigationItems.Settings,
-                )
-
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
-
                 val screens = listOf(
                     "insights_screen" to NavigationItems.Insights,
                     "chat_screen" to NavigationItems.Chat,
                     "settings_screen" to NavigationItems.Settings,
-                    // Add other screen destinations
                 )
-
                 screens.forEach { (route, item) ->
                     BottomNavigationItem(
                         selected = currentRoute == route,
@@ -75,26 +61,21 @@ fun Screen(viewModel: MainViewModel) {
                         unselectedContentColor = MaterialTheme.colors.secondary
                     )
                 }
-//                navigationList.forEachIndexed { index, item ->
-//                    BottomNavigationItem(
-//                        selected = (index == openScreenIndex.value),
-//                        onClick = { openScreenIndex.value = index },
-//                        icon = {
-//                            Icon(item.icon, contentDescription = null)
-//                        },
-//                        selectedContentColor = MaterialTheme.colors.onPrimary,
-//                        unselectedContentColor = MaterialTheme.colors.secondary
-//
-//                    )
-//                }
-                Log.d("MyApp", "openScreenIndex.value: ${openScreenIndex.value}")
             }
         }
     ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
+        Box(
+            modifier = Modifier.padding(
+                8.dp,
+                paddingValues.calculateBottomPadding(),
+                8.dp,
+                8.dp
+            )
+        ) {
             NavHost(navController = navController, startDestination = "insights_screen") {
                 composable("insights_screen") {
-                    InsightsScreen(stepsData.value.toString())
+                    viewModel.fetchData(HealthMetric.STEPS)
+                    InsightsScreen(stepsData.value)
                 }
                 composable("chat_screen") {
                     ChatScreen()
@@ -102,6 +83,7 @@ fun Screen(viewModel: MainViewModel) {
                 composable("settings_screen") {
                     SettingsScreen()
                 }
+                Log.d("MyApp", "NavHost!")
             }
         }
     }
@@ -110,31 +92,9 @@ fun Screen(viewModel: MainViewModel) {
 }
 
 
-@Composable
-fun InsightsScreen(stepsData: String) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Column {
-            Text(text = "Insights Screen")
-            Text(text = stepsData)
-        }
-    }
-}
 
 
-@Composable
-fun ChatScreen() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "Chat Screen")
-    }
-}
-
-@Composable
-fun SettingsScreen() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "Settings Screen")
-    }
-}
 
 
-// Define other screens similarly
+
 
