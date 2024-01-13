@@ -21,9 +21,7 @@ class WillowHealth : Application() {
 
         koinApp = startKoin {
             androidLogger(Level.ERROR)
-            Log.d("MyApp", "Before androidContext initialization")
             androidContext(this@WillowHealth)
-            Log.d("MyApp", "After androidContext initialization")
             modules(listOf(appModule, serviceModule, repositoryModule))
         }
 

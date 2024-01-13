@@ -24,13 +24,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModel<MainViewModel>()
-//    private val surveyViewModel by viewModel<SurveyViewModel>()
-private lateinit var surveyViewModel: SurveyViewModel
+    private val surveyViewModel by viewModel<SurveyViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val module = getMainModule(this)
         (applicationContext as WillowHealth).koinApp.modules(module) // integration
-        val surveyViewModel = ViewModelProvider(this).get(SurveyViewModel::class.java)
 
         setContent {
             WillowTheme {
@@ -56,7 +55,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-
 @Composable
 fun StepsScreen(viewModel: MainViewModel) {
     val stepsData = viewModel.steps.observeAsState()
@@ -64,7 +62,6 @@ fun StepsScreen(viewModel: MainViewModel) {
         Text(text = it.toString())
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
