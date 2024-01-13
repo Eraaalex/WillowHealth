@@ -8,17 +8,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModelProvider
 import com.example.willowhealth.HealthMetric
-import com.example.willowhealth.presentation.ui.theme.WillowTheme
 import com.example.willowhealth.app.WillowHealth
-import com.example.willowhealth.presentation.SurveyViewModel
+import com.example.willowhealth.presentation.Navigation
 import com.example.willowhealth.presentation.main.di.getMainModule
+import com.example.willowhealth.presentation.splash.SurveyViewModel
 import com.example.willowhealth.presentation.ui.screens.SurveyScreen
-//import com.example.willowhealth.ui.theme.WillowHealthTheme
+import com.example.willowhealth.presentation.ui.theme.WillowTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
@@ -28,6 +28,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val module = getMainModule(this)
         (applicationContext as WillowHealth).koinApp.modules(module) // integration
 
@@ -37,8 +38,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    Navigation(viewModel = viewModel)
-                    SurveyScreen(surveyViewModel)
+                    val isLoading = surveyViewModel.isLoading.collectAsState()
+
+                    if (isLoading.value) {
+                        SurveyScreen(
+                            viewModel = surveyViewModel,
+                        )
+                    } else {
+                        Navigation(viewModel = viewModel)
+                    }
 
                 }
             }

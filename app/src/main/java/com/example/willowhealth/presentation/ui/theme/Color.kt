@@ -3,8 +3,8 @@ package com.example.willowhealth.presentation.ui.theme
 import androidx.compose.ui.graphics.Color
 
 
-val Grey300 =  Color(0xFFf2f1f7) // ЦВЕТ ФОНА СВЕТЛЫЙ
-val Grey500 =  Color(0xFFE9E9EB)
+val Grey300 = Color(0xFFf2f1f7) // ЦВЕТ ФОНА СВЕТЛЫЙ
+val Grey500 = Color(0xFFE9E9EB)
 val Grey600 = Color(0xFFd1d2d5)
 val Grey700 = Color(0xFF858587) // ДЛЯ НАПИСАНИЯ ДОП ИИНФОРМАЦИИ
 val Grey800 = Color(0xFF4c5058) // Дополнительный фоновый

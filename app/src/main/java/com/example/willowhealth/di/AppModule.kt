@@ -1,7 +1,7 @@
 package com.example.willowhealth.di
 
-import com.example.willowhealth.presentation.SurveyViewModel
 import com.example.willowhealth.presentation.main.MainViewModel
+import com.example.willowhealth.presentation.splash.SurveyViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

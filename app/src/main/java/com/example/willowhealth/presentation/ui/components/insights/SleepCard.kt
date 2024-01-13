@@ -31,7 +31,7 @@ import com.example.willowhealth.presentation.ui.theme.WillowTheme
 /**  Sleep Card **/
 
 @Composable
-fun Sleep(hours: Int = 0, mins :Int = 0, normalValue: Int = 8) {
+fun Sleep(hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
@@ -45,8 +45,10 @@ fun Sleep(hours: Int = 0, mins :Int = 0, normalValue: Int = 8) {
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.padding(12.dp, 8.dp)
         ) {
-            Column(modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
                 Text(
                     buildAnnotatedString {
                         withStyle(
@@ -58,7 +60,12 @@ fun Sleep(hours: Int = 0, mins :Int = 0, normalValue: Int = 8) {
                         ) {
                             append("$hours")
                         }
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold,color = MaterialTheme.colors.onSecondary)) {
+                        withStyle(
+                            style = SpanStyle(
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colors.onSecondary
+                            )
+                        ) {
                             append("hr ")
                         }
                         withStyle(
@@ -70,15 +77,25 @@ fun Sleep(hours: Int = 0, mins :Int = 0, normalValue: Int = 8) {
                         ) {
                             append("$mins")
                         }
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, color = MaterialTheme.colors.onSecondary)) {
+                        withStyle(
+                            style = SpanStyle(
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colors.onSecondary
+                            )
+                        ) {
                             append("min")
                         }
                     }
                 )
-                Text(text = "/$normalValue hours 00 mins", fontWeight = FontWeight.Bold, color = MaterialTheme.colors.onSecondary, fontSize = 15.sp)
+                Text(
+                    text = "/$normalValue hours 00 mins",
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.onSecondary,
+                    fontSize = 15.sp
+                )
             }
             LinearProgressIndicator(
-                progress = (hours*60+mins) / (normalValue.toFloat()*60),
+                progress = (hours * 60 + mins) / (normalValue.toFloat() * 60),
                 modifier = Modifier
                     .height(15.dp)
                     .weight(1.5f)

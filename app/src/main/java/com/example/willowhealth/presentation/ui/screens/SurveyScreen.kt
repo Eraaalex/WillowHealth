@@ -1,13 +1,10 @@
 package com.example.willowhealth.presentation.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -16,10 +13,8 @@ import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.willowhealth.presentation.SurveyViewModel
+import com.example.willowhealth.presentation.splash.SurveyViewModel
 import com.example.willowhealth.presentation.ui.components.survey.QuestionCard
 import java.time.LocalTime
 
@@ -43,17 +38,20 @@ fun SurveyScreen(viewModel: SurveyViewModel) {
         )
         Button(
             onClick = {
-                viewModel.updateTimeData(
-                    startTime = LocalTime.of(timeStateForStart.hour, timeStateForStart.minute),
-                    endTime = LocalTime.of(timeStateForEnd.hour, timeStateForEnd.minute)
-                )
+                viewModel.run {
+                    updateTimeData(
+                        startTime = LocalTime.of(timeStateForStart.hour, timeStateForStart.minute),
+                        endTime = LocalTime.of(timeStateForEnd.hour, timeStateForEnd.minute)
+                    )
+                    finish()
+                }
             },
             modifier = Modifier
                 .background(MaterialTheme.colors.background)
                 .defaultMinSize(90.dp, 50.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.surface),
             shape = RoundedCornerShape(15)
-            ) {
+        ) {
             Text("Send!", fontSize = MaterialTheme.typography.h6.fontSize)
         }
     }

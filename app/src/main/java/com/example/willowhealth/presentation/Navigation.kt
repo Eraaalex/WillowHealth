@@ -2,19 +2,15 @@ package com.example.willowhealth.presentation
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
@@ -29,7 +25,7 @@ import com.example.willowhealth.presentation.ui.screens.InsightsScreen
 import com.example.willowhealth.presentation.ui.screens.SettingsScreen
 
 @Composable
-fun Navigation(viewModel: MainViewModel, ) {
+fun Navigation(viewModel: MainViewModel) {
     val navController = rememberNavController()
     val stepsData = viewModel.steps.observeAsState()
 

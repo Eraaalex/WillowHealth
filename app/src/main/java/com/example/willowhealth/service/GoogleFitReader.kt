@@ -9,12 +9,10 @@ import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.fitness.data.Field
 import com.google.android.gms.fitness.request.DataReadRequest
-import java.time.LocalDate
-
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
-typealias MetricWithValue =  HashMap<String, Int>
+typealias MetricWithValue = HashMap<String, Int>
 typealias DateTimeWithMetric = HashMap<String, HashMap<String, MetricWithValue>>
 
 interface HealthReader {

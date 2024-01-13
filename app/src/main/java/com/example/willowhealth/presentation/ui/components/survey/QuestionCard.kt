@@ -15,8 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.willowhealth.presentation.ui.theme.Grey300
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime

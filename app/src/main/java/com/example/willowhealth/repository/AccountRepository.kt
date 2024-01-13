@@ -6,7 +6,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
 interface AccountRepository {
-    fun get() : GoogleSignInAccount
+    fun get(): GoogleSignInAccount
 }
 
 class AccountRepositoryImpl(
