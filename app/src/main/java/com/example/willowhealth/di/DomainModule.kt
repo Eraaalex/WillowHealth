@@ -14,5 +14,7 @@ val serviceModule = module {
 }
 
 val repositoryModule = module {
+
+//    singleOf(::AccountRepositoryImpl) { bind<AccountRepositoryImpl>() }
     single<AccountRepository> { AccountRepositoryImpl(get()) }
 }

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -71,11 +72,15 @@ dependencies {
     implementation("androidx.compose.material:material")
 
     // Koin for Android
-    implementation("io.insert-koin:koin-android:3.1.2")
-    implementation("io.insert-koin:koin-core:3.1.2")
+
+    implementation("io.insert-koin:koin-android:3.5.3")
+    implementation("io.insert-koin:koin-core:3.5.3")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("io.insert-koin:koin-test-junit5:3.5.3")
+    implementation("io.insert-koin:koin-androidx-compose:3.5.3")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation("io.insert-koin:koin-ktor:3.5.3")
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.5.0")
@@ -85,5 +90,18 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
     implementation("androidx.core:core-splashscreen:1.0.1")
+
+    implementation("com.firebaseui:firebase-ui-auth:7.2.0")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-analytics")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+
+    // Also add the dependency for the Google Play services library and specify its version
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+
+
+
 
 }

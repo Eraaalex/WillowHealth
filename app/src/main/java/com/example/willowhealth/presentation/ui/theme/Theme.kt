@@ -34,19 +34,19 @@ private val DarkColorPalette = darkColors(
     primary = Color.White,
     onPrimary = Color.Black,
     background = Color.Black, // ЦВЕТ ФОНА
-    surface = Grey900, //  ЦВЕТ КАРТОЧКИ
+    surface = Grey1000, //  ЦВЕТ КАРТОЧКИ
     secondary = Grey800,
     onBackground = Color.White,
     onSurface = Color.White, // ПЕРВОСТЕПЕННЫЙ ЦВЕТ КАРТЫ
     onSecondary = Grey700,
-    primaryVariant = Grey600
+    primaryVariant = Grey600,
 )
 
 private val LightColorPalette = lightColors(
     primary = Color.White,
     onPrimary = Color.Black,
     background = Grey300,
-    secondary = Green500,
+    secondary = Grey500,
     surface = Color.White, // ЦВЕТ КАРТОЧКИ
     onBackground = Color.Black,
     onSurface = Color.Black, // ПЕВРОСТЕПЕННЫЙ ЦВЕТ КАРТЫ

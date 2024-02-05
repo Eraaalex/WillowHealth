@@ -5,10 +5,12 @@ import androidx.compose.ui.graphics.Color
 
 val Grey300 = Color(0xFFf2f1f7) // ЦВЕТ ФОНА СВЕТЛЫЙ
 val Grey500 = Color(0xFFE9E9EB)
+val Grey60 = Color(0xFFeeeeee) // BUTTON COLOR
 val Grey600 = Color(0xFFd1d2d5)
 val Grey700 = Color(0xFF858587) // ДЛЯ НАПИСАНИЯ ДОП ИИНФОРМАЦИИ
 val Grey800 = Color(0xFF4c5058) // Дополнительный фоновый
-val Grey900 = Color(0xFF1c1c1e) // ЦВЕТ КАРТОЧКИ ТЕМНЫЙ
+val Grey900 = Color(0xFF333336) // BUTTON COLOR
+val Grey1000 = Color(0xFF1c1c1e) // ЦВЕТ КАРТОЧКИ ТЕМНЫЙ
 
 
 val Green900 = Color(0xFF01A33E)

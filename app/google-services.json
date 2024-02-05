@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "833060674173",
+    "project_id": "willowhealth",
+    "storage_bucket": "willowhealth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833060674173:android:61e519d4053921898caf14",
+        "android_client_info": {
+          "package_name": "com.example.willowhealth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "833060674173-2vt17kd4e5k199an4l2as34dfjgvrg8f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.willowhealth",
+            "certificate_hash": "5774693e5729820a7751141edaf182f9e33db4b0"
+          }
+        },
+        {
+          "client_id": "833060674173-lbrb3fc8lctkbr7q139gpggg9bmoin6v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD09ttplrzhmkZgMyP_53VofQ6KqokYTb4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "833060674173-lbrb3fc8lctkbr7q139gpggg9bmoin6v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

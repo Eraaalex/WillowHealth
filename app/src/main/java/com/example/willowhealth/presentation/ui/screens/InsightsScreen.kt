@@ -6,11 +6,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.willowhealth.HealthMetric
+import com.example.willowhealth.presentation.main.MainViewModel
 import com.example.willowhealth.presentation.ui.components.insights.StepsCard
-import com.example.willowhealth.service.DateTimeWithMetric
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun InsightsScreen(stepsData: DateTimeWithMetric?) {
+fun InsightsScreen(viewModel: MainViewModel = koinViewModel()) {
+    val stepsData = viewModel.steps.value
+    viewModel.fetchData(HealthMetric.STEPS)
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Log.d("MyApp", "stepsData in InsightsScreen: $stepsData")
         StepsCard(

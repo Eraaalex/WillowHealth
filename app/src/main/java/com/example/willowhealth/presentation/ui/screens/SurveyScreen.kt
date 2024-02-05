@@ -14,14 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.willowhealth.presentation.splash.SurveyViewModel
 import com.example.willowhealth.presentation.ui.components.survey.QuestionCard
 import java.time.LocalTime
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SurveyScreen(viewModel: SurveyViewModel) {
+fun SurveyScreen(viewModel: SurveyViewModel = viewModel()) {
     // State variables for start and end time
     val timeStateForStart = rememberTimePickerState(22, 0, false)
     val timeStateForEnd = rememberTimePickerState(8, 0, false)
