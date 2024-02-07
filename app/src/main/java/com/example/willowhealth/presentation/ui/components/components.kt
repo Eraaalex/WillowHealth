@@ -1,9 +1,16 @@
 package com.example.willowhealth.presentation.ui.components
 
 
-
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -12,6 +19,7 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.materialPath
 import androidx.compose.material3.Icon
@@ -22,28 +30,28 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.willowhealth.Message
 
 @Composable
-fun ButtonComponent(text: String, onButtonClicked: () -> Unit, modifier : Modifier = Modifier, isEnabled: Boolean = false) {
+fun ButtonComponent(
+    text: String,
+    onButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+    isEnabled: Boolean = false
+) {
 
     Button(
         onClick = {
@@ -207,5 +215,113 @@ fun OutlinedTextFieldLogIn(
     )
 }
 
+@Preview
+@Composable
+fun RecyclerViewSample(data: List<String> = listOf("Hello,", "world!")) {
+    val items = listOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5")
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth(),
+//        itemsIn = 1..items.size // Adjust the range based on your requirements
+    ) {
+        itemsIndexed(data) { index, d ->
+            ListItem(d + "$index")
+        }
+    }
+}
+
+@Composable
+fun ListItem(data: String, modifier: Modifier = Modifier) {
+    Row(modifier.fillMaxWidth()) {
+        Text(text = data)
+        // … other composables required for displaying `data`
+    }
+}
 
 
+@Composable
+fun ChatMessage(message: Message) {
+    if (message.sentBy == "me") {
+        ChatMyMessage(message = message)
+    } else {
+        ChatBotMessage(message = message)
+    }
+}
+
+@Composable
+fun ChatBotMessage(modifier: Modifier = Modifier, message: Message) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 4.dp),
+        contentAlignment = Alignment.TopStart
+    ) {
+        Text(
+            text = message.text,
+            modifier = Modifier
+                .padding(2.dp)
+                .background(MaterialTheme.colors.surface, RoundedCornerShape(5))
+                .padding(horizontal = 8.dp, vertical = 4.dp),
+            color = MaterialTheme.colors.onSurface,
+        )
+    }
+}
+
+@Composable
+fun ChatMyMessage(modifier: Modifier = Modifier, message: Message) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 4.dp),
+        contentAlignment = Alignment.TopEnd
+    ) {
+        Text(
+            text = message.text,
+            modifier = Modifier
+                .padding(2.dp)
+                .background(MaterialTheme.colors.surface, RoundedCornerShape(5))
+                .padding(horizontal = 8.dp, vertical = 4.dp),
+            color = MaterialTheme.colors.onSurface,
+        )
+    }
+}
+
+
+@Preview
+@Composable
+fun ChatBotMessagePreview(message: Message = Message("Hello!", "me")) {
+    ChatBotMessage(message = message)
+
+}
+
+
+@Composable
+fun ChatInputFiled(
+    text: String,
+    onTextValueChanged: (String) -> Unit = {},
+    onButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+
+
+    TextField(
+        value = text,
+        onValueChange = onTextValueChanged,
+        modifier = Modifier
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        textStyle = TextStyle(color = Color.Black),
+        leadingIcon = {
+            IconButton(
+                onClick = { onButtonClicked() },
+                modifier = Modifier.size(48.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Send,
+                    contentDescription = "Send"
+                )
+            }
+        },
+    )
+
+
+}

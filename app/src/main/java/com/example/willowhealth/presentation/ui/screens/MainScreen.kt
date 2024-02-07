@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.willowhealth.app.CHAT_SCREEN
 import com.example.willowhealth.app.INSIGHTS_SCREEN
 import com.example.willowhealth.app.SETTINGS_SCREEN
+import com.example.willowhealth.presentation.chat.ChatScreen
 import com.example.willowhealth.presentation.ui.components.NavigationItems
 
 @Composable

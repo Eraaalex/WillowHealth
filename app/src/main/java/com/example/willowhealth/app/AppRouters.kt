@@ -33,7 +33,7 @@ sealed class Screen {
 
 object AppRouter {
 
-    var currentScreen: MutableState<Screen> = mutableStateOf(Screen.LoginScreen)
+    var currentScreen: MutableState<Screen> = mutableStateOf(Screen.MainScreen)
 
     fun navigateTo(destination: Screen) {
         currentScreen.value = destination
@@ -46,7 +46,7 @@ object AppRouter {
 @Composable
 fun App() {
 
-    KoinAndroidContext() {
+    KoinAndroidContext {
 
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -67,7 +67,6 @@ fun App() {
                     is Screen.SurveyScreen -> {
                         SurveyScreen()
                     }
-
 
                     else -> {
                         LoginScreen()

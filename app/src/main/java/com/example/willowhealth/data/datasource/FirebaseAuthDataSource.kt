@@ -12,7 +12,7 @@ object FirebaseAuthDataSource {
         return auth.signInWithEmailAndPassword(email, password)
     }
 
-    fun register(email: String, phone : String, password : String) : Task<AuthResult>{
+    fun register(email: String, phone: String, password: String): Task<AuthResult> {
         return auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
             val user = auth.currentUser
             if (user != null) {
@@ -25,6 +25,7 @@ object FirebaseAuthDataSource {
             Log.d("MyApp", it.message ?: "Oh, it failed")
         }
     }
+
     fun sendVerificationEmail() {
         val user = auth.currentUser
         user?.sendEmailVerification()
@@ -37,7 +38,10 @@ object FirebaseAuthDataSource {
             }
     }
 
-
+    fun logout() {
+        auth.signOut()
+        
+    }
 
 
 }

@@ -10,7 +10,7 @@ interface AccountService {
     fun linkAccount(email: String, password: String, onResult: (Throwable?) -> Unit)
 }
 
-class AccountServiceImpl() : AccountService {
+class AccountServiceImpl : AccountService {
     override fun createAnonymousAccount(onResult: (Throwable?) -> Unit) {
         Firebase.auth.signInAnonymously()
             .addOnCompleteListener { onResult(it.exception) }

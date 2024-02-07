@@ -27,9 +27,9 @@ class MainActivity : ComponentActivity() {
         val module = getMainModule(this)
         (applicationContext as WillowHealth).koinApp.modules(module) // integration
 
-        if(FirebaseAuth.getInstance().currentUser != null) {
-            AppRouter.navigateTo(Screen.MainScreen)
-        }
+//        if (FirebaseAuth.getInstance().currentUser != null) {
+//            AppRouter.navigateTo(Screen.MainScreen)
+//        }
         setContent {
             App()
         }

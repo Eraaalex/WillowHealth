@@ -11,9 +11,8 @@ import com.example.willowhealth.extention.isValidPassword
 import com.example.willowhealth.extention.isValidPhone
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.UserProfileChangeRequest
 
-class LoginViewModel() : ViewModel() {
+class LoginViewModel : ViewModel() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     var uiState = mutableStateOf(LoginUiState())
         private set
@@ -43,8 +42,11 @@ class LoginViewModel() : ViewModel() {
 
 
     fun onSignInClick() { // Вход
-        _showSnackbarState.value = false;
-        FirebaseAuthDataSource.signInWithEmailAndPassword(uiState.value.email, uiState.value.password)
+        _showSnackbarState.value = false
+        FirebaseAuthDataSource.signInWithEmailAndPassword(
+            uiState.value.email,
+            uiState.value.password
+        )
             .addOnSuccessListener {
                 user.value = it.user
 
@@ -55,9 +57,16 @@ class LoginViewModel() : ViewModel() {
 
     }
 
-    fun onSignUpClick(){ // Регистрация
-        FirebaseAuthDataSource.register(uiState.value.email, uiState.value.phone, uiState.value.password)
-        FirebaseAuthDataSource.signInWithEmailAndPassword(uiState.value.email, uiState.value.password)
+    fun onSignUpClick() { // Регистрация
+        FirebaseAuthDataSource.register(
+            uiState.value.email,
+            uiState.value.phone,
+            uiState.value.password
+        )
+        FirebaseAuthDataSource.signInWithEmailAndPassword(
+            uiState.value.email,
+            uiState.value.password
+        )
             .addOnSuccessListener {
                 user.value = it.user
 
@@ -66,8 +75,6 @@ class LoginViewModel() : ViewModel() {
             }
 
     }
-
-
 
 
     fun onEmailChange(newValue: String) {
@@ -87,7 +94,6 @@ class LoginViewModel() : ViewModel() {
         allValidateInputs()
         Log.d("LogIn", "Phone :${uiState.value.phone} ${allValidationPassed.value}")
     }
-
 
 
     private fun allValidateInputs() {
