@@ -40,7 +40,7 @@ object FirebaseAuthDataSource {
 
     fun logout() {
         auth.signOut()
-        
+
     }
 
 
