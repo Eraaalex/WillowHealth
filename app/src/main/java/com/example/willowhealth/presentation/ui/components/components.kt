@@ -43,7 +43,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.willowhealth.Message
+import com.example.willowhealth.model.Message
+import com.example.willowhealth.model.MessageType
 
 @Composable
 fun ButtonComponent(
@@ -240,7 +241,7 @@ fun ListItem(data: String, modifier: Modifier = Modifier) {
 
 @Composable
 fun ChatMessage(message: Message) {
-    if (message.sentBy == "me") {
+    if (message.sentBy == MessageType.SENT_BY_ME) {
         ChatMyMessage(message = message)
     } else {
         ChatBotMessage(message = message)
@@ -288,11 +289,10 @@ fun ChatMyMessage(modifier: Modifier = Modifier, message: Message) {
 
 @Preview
 @Composable
-fun ChatBotMessagePreview(message: Message = Message("Hello!", "me")) {
+fun ChatBotMessagePreview(message: Message = Message("Hello!", MessageType.SENT_BY_BOT)) {
     ChatBotMessage(message = message)
 
 }
-
 
 @Composable
 fun ChatInputFiled(

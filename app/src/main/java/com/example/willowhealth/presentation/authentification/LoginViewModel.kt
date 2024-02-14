@@ -1,6 +1,5 @@
 package com.example.willowhealth.presentation.authentification
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +12,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 class LoginViewModel : ViewModel() {
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     var uiState = mutableStateOf(LoginUiState())
         private set
 
@@ -40,7 +38,6 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-
     fun onSignInClick() { // Вход
         _showSnackbarState.value = false
         FirebaseAuthDataSource.signInWithEmailAndPassword(
@@ -53,11 +50,9 @@ class LoginViewModel : ViewModel() {
             }.addOnFailureListener {
                 error.value = it.message
             }
-
-
     }
 
-    fun onSignUpClick() { // Регистрация
+    fun onSignUpClick() {
         FirebaseAuthDataSource.register(
             uiState.value.email,
             uiState.value.phone,
@@ -73,26 +68,22 @@ class LoginViewModel : ViewModel() {
             }.addOnFailureListener {
                 error.value = it.message
             }
-
     }
 
 
     fun onEmailChange(newValue: String) {
         uiState.value = uiState.value.copy(email = newValue)
         allValidateInputs()
-        Log.d("LogIn", "Email :${uiState.value.email} ${allValidationPassed.value}")
     }
 
     fun onPasswordChange(newValue: String) {
         uiState.value = uiState.value.copy(password = newValue)
         allValidateInputs()
-        Log.d("LogIn", "Pass :${uiState.value.password} ${allValidationPassed.value}")
     }
 
     fun onPhoneChange(newValue: String) {
         uiState.value = uiState.value.copy(phone = newValue)
         allValidateInputs()
-        Log.d("LogIn", "Phone :${uiState.value.phone} ${allValidationPassed.value}")
     }
 
 
@@ -103,8 +94,3 @@ class LoginViewModel : ViewModel() {
     }
 }
 
-data class LoginUiState(
-    var email: String = "",
-    var phone: String = "",
-    var password: String = ""
-)

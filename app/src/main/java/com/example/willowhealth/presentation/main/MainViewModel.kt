@@ -3,7 +3,7 @@ package com.example.willowhealth.presentation.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.willowhealth.HealthMetric
+import com.example.willowhealth.model.HealthMetric
 import com.example.willowhealth.service.HealthDataManager
 import kotlinx.coroutines.launch
 import java.util.Date

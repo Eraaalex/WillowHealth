@@ -9,9 +9,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.willowhealth.presentation.ui.screens.LoginScreen
+import com.example.willowhealth.presentation.authentification.LoginScreen
+import com.example.willowhealth.presentation.splash.SurveyScreen
 import com.example.willowhealth.presentation.ui.screens.MainScreen
-import com.example.willowhealth.presentation.ui.screens.SurveyScreen
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.core.annotation.KoinExperimentalAPI
 

@@ -1,4 +1,4 @@
-package com.example.willowhealth
+package com.example.willowhealth.model
 
 enum class HealthMetric {
     STEPS,

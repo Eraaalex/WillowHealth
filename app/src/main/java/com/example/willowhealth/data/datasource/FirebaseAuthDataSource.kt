@@ -12,6 +12,8 @@ object FirebaseAuthDataSource {
         return auth.signInWithEmailAndPassword(email, password)
     }
 
+    fun getCurrentUser() = auth.currentUser
+
     fun register(email: String, phone: String, password: String): Task<AuthResult> {
         return auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
             val user = auth.currentUser

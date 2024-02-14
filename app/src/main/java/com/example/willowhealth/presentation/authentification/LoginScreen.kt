@@ -1,4 +1,4 @@
-package com.example.willowhealth.presentation.ui.screens
+package com.example.willowhealth.presentation.authentification
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.willowhealth.app.AppRouter
 import com.example.willowhealth.app.Screen
-import com.example.willowhealth.presentation.authentification.LoginViewModel
 import com.example.willowhealth.presentation.ui.components.ButtonComponent
 import com.example.willowhealth.presentation.ui.components.OutlinedTextFieldLogIn
 

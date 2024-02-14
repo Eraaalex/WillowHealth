@@ -6,7 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.willowhealth.GPTService
-import com.example.willowhealth.Message
+import com.example.willowhealth.model.Message
+import com.example.willowhealth.model.MessageType
 import kotlinx.coroutines.launch
 
 class ChatViewModel : ViewModel() {
@@ -19,7 +20,7 @@ class ChatViewModel : ViewModel() {
     val chatMessages: List<Message> = _chatMessages
 
 
-    fun sendMessage(text: String, sendBy: String = "me") {
+    fun sendMessage(text: String, sendBy: MessageType = MessageType.SENT_BY_ME) {
         _chatMessages.add(Message(text, sendBy))
         viewModelScope.launch {
             respond.value = GPTService.getGPTResponse(text)
@@ -28,7 +29,7 @@ class ChatViewModel : ViewModel() {
     }
 
     fun sendBotMessage() {
-        _chatMessages.add(Message(respond.value ?: "", "bot"))
+        _chatMessages.add(Message(respond.value ?: "", MessageType.SENT_BY_BOT))
 
     }
 

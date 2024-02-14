@@ -42,9 +42,11 @@ fun ChatScreen(viewModel: ChatViewModel = viewModel()) {
     val listState = rememberLazyListState()
     val (lazyColumn, chatInputField) = createRefs()
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(8.dp, 50.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp, 50.dp)
+    ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()

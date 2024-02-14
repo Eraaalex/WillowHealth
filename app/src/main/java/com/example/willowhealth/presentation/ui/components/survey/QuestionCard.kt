@@ -22,7 +22,7 @@ import java.time.LocalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QuestionCard(
+fun QuestionSleepCard(
     question: String,
     timeStateForStart: TimePickerState,
     timeStateForEnd: TimePickerState

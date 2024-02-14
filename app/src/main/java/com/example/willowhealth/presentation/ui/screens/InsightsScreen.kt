@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.willowhealth.HealthMetric
+import com.example.willowhealth.model.HealthMetric
 import com.example.willowhealth.presentation.main.MainViewModel
 import com.example.willowhealth.presentation.ui.components.insights.StepsCard
 import org.koin.androidx.compose.koinViewModel

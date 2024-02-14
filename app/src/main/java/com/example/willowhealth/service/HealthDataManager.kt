@@ -1,6 +1,6 @@
 package com.example.willowhealth.service
 
-import com.example.willowhealth.HealthMetric
+import com.example.willowhealth.model.HealthMetric
 import java.util.Date
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
