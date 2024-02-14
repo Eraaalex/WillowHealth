@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -122,20 +123,36 @@ fun SleepQualityEstimationRow(
 ) {
     val sleepQualityOptions = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
     val (selectedQuality, setSelectedQuality) = remember { mutableStateOf(initialQuality) } // Default value is 5
-
-    Row {
-        sleepQualityOptions.forEach { quality ->
-            RadioButton(
-                selected = quality == selectedQuality,
-                onClick = {
-                    onSleepQualitySelected(quality)
-                    setSelectedQuality(quality)
-                },
-                colors = RadioButtonDefaults.colors(selectedColor = Color.Blue),
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
+    Column(modifier = Modifier
+        .padding(8.dp)
+        .fillMaxWidth()) {
+        Row {
+            sleepQualityOptions.forEach { quality ->
+                RadioButton(
+                    selected = quality == selectedQuality,
+                    onClick = {
+                        onSleepQualitySelected(quality)
+                        setSelectedQuality(quality)
+                    },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = MaterialTheme.colors.primary,
+                        unselectedColor = MaterialTheme.colors.secondary,
+                        disabledColor = MaterialTheme.colors.onSurface
+                    ),
+                    modifier = Modifier.padding(horizontal = 2.dp).width(10.dp)
+                )
+            }
+        }
+        Row {
+            sleepQualityOptions.forEach { quality ->
+                Text(
+                    text = quality.toString(),
+                    modifier = Modifier.padding(horizontal = 2.dp)
+                )
+            }
         }
     }
+
 }
 
 @Composable

@@ -30,6 +30,25 @@ object FirebaseRealtimeSource {
         }
 
     }
+
+    fun getSurveyData(userId: String) : List<SurveyData> {
+        val oneWeekAgo = System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000
+        val res = databaseReferenceSurveys.child(userId)
+            .orderByChild("timestamp")
+            .startAt(oneWeekAgo.toDouble())
+            .get()
+        val surveyDataList = mutableListOf<SurveyData>()
+        res.addOnSuccessListener { it ->
+            for (snapshot in it.children) {
+                val surveyData = snapshot.getValue(SurveyData::class.java)
+                surveyData?.run {
+                    surveyDataList.add(this)
+                }
+            }
+        }
+        return surveyDataList
+
+    }
 }
 
 

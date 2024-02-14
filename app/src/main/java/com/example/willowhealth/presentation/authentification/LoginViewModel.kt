@@ -1,5 +1,6 @@
 package com.example.willowhealth.presentation.authentification
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -38,6 +39,7 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+
     fun onSignInClick() { // Вход
         _showSnackbarState.value = false
         FirebaseAuthDataSource.signInWithEmailAndPassword(
@@ -50,9 +52,11 @@ class LoginViewModel : ViewModel() {
             }.addOnFailureListener {
                 error.value = it.message
             }
+
+
     }
 
-    fun onSignUpClick() {
+    fun onSignUpClick() { // Регистрация
         FirebaseAuthDataSource.register(
             uiState.value.email,
             uiState.value.phone,
@@ -68,6 +72,7 @@ class LoginViewModel : ViewModel() {
             }.addOnFailureListener {
                 error.value = it.message
             }
+
     }
 
 
@@ -84,6 +89,7 @@ class LoginViewModel : ViewModel() {
     fun onPhoneChange(newValue: String) {
         uiState.value = uiState.value.copy(phone = newValue)
         allValidateInputs()
+
     }
 
 

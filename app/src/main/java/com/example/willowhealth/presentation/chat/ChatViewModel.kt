@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.willowhealth.GPTService
+import com.example.willowhealth.data.datasource.FirebaseRealtimeSource
 import com.example.willowhealth.model.Message
 import com.example.willowhealth.model.MessageType
 import kotlinx.coroutines.launch
@@ -31,6 +32,10 @@ class ChatViewModel : ViewModel() {
     fun sendBotMessage() {
         _chatMessages.add(Message(respond.value ?: "", MessageType.SENT_BY_BOT))
 
+    }
+
+    private fun getSurveyData(){
+        FirebaseRealtimeSource.
     }
 
     fun onSendClick() {
