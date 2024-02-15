@@ -3,6 +3,7 @@ package com.example.willowhealth.presentation.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -12,6 +13,7 @@ import com.example.willowhealth.app.Screen
 import com.example.willowhealth.app.WillowHealth
 import com.example.willowhealth.data.datasource.FirebaseAuthDataSource
 import com.example.willowhealth.presentation.main.di.getMainModule
+import com.example.willowhealth.presentation.ui.theme.WillowTheme
 import java.util.Calendar
 
 const val TAG: String = "MyApp"
@@ -26,7 +28,10 @@ class MainActivity : ComponentActivity() {
 
         initialNavigation()
         setContent {
-            App()
+            WillowTheme {
+                App()
+            }
+
         }
     }
 

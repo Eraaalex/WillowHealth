@@ -20,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -28,14 +29,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.willowhealth.app.AppRouter
 import com.example.willowhealth.app.Screen
+import com.example.willowhealth.presentation.main.TAG
 import com.example.willowhealth.presentation.ui.components.ButtonComponent
 import com.example.willowhealth.presentation.ui.components.OutlinedTextFieldLogIn
 
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
     val uiState by viewModel.uiState
-    val showErrorSnackbar = remember { viewModel.showSnackbarState }
-
+    var message by viewModel.message
 
     val snackbarHostState = remember { SnackbarHostState() }
     val showSnackbar = remember { mutableStateOf(false) }
@@ -94,27 +95,28 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                 onButtonClicked = {
                     viewModel.onSignUpClick()
                     Log.d("MyApp", "Click on Sign Up")
-                    AppRouter.navigateTo(Screen.MainScreen)
+                    if (message != "") {
+                        showSnackbar.value = true
+                    } else {
+                        AppRouter.navigateTo(Screen.MainScreen)
+                    }
+
+
                 },
                 isEnabled = viewModel.allValidationPassed.value,
                 modifier = Modifier.weight(1f)
             )
         }
 
-        if (showErrorSnackbar.value == true) {
-            Snackbar(
-                modifier = Modifier.padding(8.dp),
 
-                ) {
-                Text(text = "Incorrect")
-            }
-        }
+
 
         LaunchedEffect(showSnackbar.value) {
             if (showSnackbar.value) {
                 snackbarHostState.showSnackbar("Please check your inputs")
                 showSnackbar.value = false
             }
+            Log.d(TAG, "showSnackbar: $showSnackbar")
         }
     }
 

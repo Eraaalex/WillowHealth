@@ -1,8 +1,6 @@
 package com.example.willowhealth.presentation.authentification
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.willowhealth.data.datasource.FirebaseAuthDataSource
@@ -15,7 +13,8 @@ import com.google.firebase.auth.FirebaseUser
 class LoginViewModel : ViewModel() {
     var uiState = mutableStateOf(LoginUiState())
         private set
-
+    var message = mutableStateOf("")
+        private set // Сообщение об ошибке
     private val email
         get() = uiState.value.email
     private val phone
@@ -24,10 +23,6 @@ class LoginViewModel : ViewModel() {
         get() = uiState.value.password
 
     private val user = MutableLiveData<FirebaseUser>()
-    private val error = MutableLiveData<String>()
-    private val message = MutableLiveData<String>()
-    private val _showSnackbarState = MutableLiveData(false)
-    val showSnackbarState: LiveData<Boolean> = _showSnackbarState
 
     var allValidationPassed = mutableStateOf(false)
 
@@ -41,7 +36,7 @@ class LoginViewModel : ViewModel() {
 
 
     fun onSignInClick() { // Вход
-        _showSnackbarState.value = false
+        message.value = ""
         FirebaseAuthDataSource.signInWithEmailAndPassword(
             uiState.value.email,
             uiState.value.password
@@ -49,14 +44,16 @@ class LoginViewModel : ViewModel() {
             .addOnSuccessListener {
                 user.value = it.user
 
+
             }.addOnFailureListener {
-                error.value = it.message
+                message.value = it.message ?: "Sign In error, check your input data!"
             }
 
 
     }
 
     fun onSignUpClick() { // Регистрация
+        message.value = ""
         FirebaseAuthDataSource.register(
             uiState.value.email,
             uiState.value.phone,
@@ -70,7 +67,7 @@ class LoginViewModel : ViewModel() {
                 user.value = it.user
 
             }.addOnFailureListener {
-                error.value = it.message
+                message.value = it.message ?: "Sign Up error, check your input data!"
             }
 
     }
@@ -91,7 +88,6 @@ class LoginViewModel : ViewModel() {
         allValidateInputs()
 
     }
-
 
     private fun allValidateInputs() {
         allValidationPassed.value = email.isValidEmail() &&

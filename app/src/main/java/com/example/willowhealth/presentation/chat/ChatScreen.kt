@@ -28,14 +28,11 @@ import com.example.willowhealth.presentation.ui.components.ChatMessage
 fun ChatScreen(viewModel: ChatViewModel = viewModel()) {
 
     val message by remember { viewModel.message }
-    val respond = viewModel.respond.observeAsState()
-
-    LaunchedEffect(respond) {
-        viewModel.sendBotMessage()
-    }
+    val respond by  viewModel.respond
 
 
-    val chatMessages = remember {
+
+    val chatMessages by remember {
         viewModel.chatMessages
     }
 

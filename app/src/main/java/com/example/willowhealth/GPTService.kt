@@ -14,7 +14,7 @@ import com.aallam.openai.client.OpenAI
 object GPTService : ViewModel() {
 
 
-    private val CHAT_GPT_API_KEY = "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"
+    private val CHAT_GPT_API_KEY = KEY // Key is defined in Key.kt
     private val openAI = OpenAI(CHAT_GPT_API_KEY)
 
     @OptIn(BetaOpenAI::class)
