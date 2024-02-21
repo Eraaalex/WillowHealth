@@ -1,9 +1,10 @@
 package com.example.willowhealth.presentation.main
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -20,11 +21,15 @@ const val TAG: String = "MyApp"
 
 class MainActivity : ComponentActivity() {
 
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val module = getMainModule(this)
         (applicationContext as WillowHealth).koinApp.modules(module) // integration
+
+        sharedPreferences = getSharedPreferences("SurveyPrefs", Context.MODE_PRIVATE)
+
 
         initialNavigation()
         setContent {
@@ -35,10 +40,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun initialNavigation() {
+    private fun initialNavigation() {
+
+
         if (FirebaseAuthDataSource.getCurrentUser() != null) {
             val hourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-            if (hourOfDay > 22 || hourOfDay < 8) {
+            if ((hourOfDay > 22 || hourOfDay < 13) && !SharedPreferencesManager.isSurveyCompleted()) { // TIME TO SURVEY
                 AppRouter.navigateTo(Screen.SurveyScreen)
             } else {
                 AppRouter.navigateTo(Screen.MainScreen)

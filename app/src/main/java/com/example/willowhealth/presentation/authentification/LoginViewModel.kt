@@ -7,6 +7,7 @@ import com.example.willowhealth.data.datasource.FirebaseAuthDataSource
 import com.example.willowhealth.extention.isValidEmail
 import com.example.willowhealth.extention.isValidPassword
 import com.example.willowhealth.extention.isValidPhone
+import com.example.willowhealth.model.LoginUiState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 

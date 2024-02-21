@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -107,8 +105,6 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                 modifier = Modifier.weight(1f)
             )
         }
-
-
 
 
         LaunchedEffect(showSnackbar.value) {

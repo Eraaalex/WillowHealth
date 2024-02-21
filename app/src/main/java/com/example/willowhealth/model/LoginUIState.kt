@@ -1,4 +1,4 @@
-package com.example.willowhealth.presentation.authentification
+package com.example.willowhealth.model
 
 data class LoginUiState(
     var email: String = "",

@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.willowhealth.model.SurveyData
 import com.example.willowhealth.presentation.main.TAG
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.tasks.await
 
 object FirebaseRealtimeSource {
     private val database = FirebaseDatabase
@@ -15,7 +16,6 @@ object FirebaseRealtimeSource {
 
     fun saveSurveyData(surveyData: SurveyData) {
         val userId = FirebaseAuthDataSource.getCurrentUser()?.uid
-
         Log.d(TAG, ("onSaveClick: after determining the user id" + userId))
         userId?.let {
             val surveyId = databaseReferenceSurveys.child(userId)
@@ -28,19 +28,22 @@ object FirebaseRealtimeSource {
                     Log.d(TAG, "onSaveClick: Failed to save the survey data")
                 }
         }
-
     }
 
-    fun getSurveyData(userId: String) : List<SurveyData> {
+
+    suspend fun fetchSurveyData(userId: String): List<SurveyData> {
         val oneWeekAgo = System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000
         val res = databaseReferenceSurveys.child(userId)
             .orderByChild("timestamp")
             .startAt(oneWeekAgo.toDouble())
-            .get()
+            .get().await()
+        Log.e(TAG, "[FRS]: " + res)
         val surveyDataList = mutableListOf<SurveyData>()
-        res.addOnSuccessListener { it ->
+        res.let { it ->
             for (snapshot in it.children) {
+                Log.e(TAG, "[FRS] Snapshot: " + snapshot)
                 val surveyData = snapshot.getValue(SurveyData::class.java)
+                Log.e(TAG, "[FRS] Obj: " + surveyData)
                 surveyData?.run {
                     surveyDataList.add(this)
                 }

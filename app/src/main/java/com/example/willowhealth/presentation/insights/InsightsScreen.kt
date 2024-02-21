@@ -1,4 +1,4 @@
-package com.example.willowhealth.presentation.ui.screens
+package com.example.willowhealth.presentation.insights
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column

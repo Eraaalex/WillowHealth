@@ -1,17 +1,16 @@
 package com.example.willowhealth.app
 
-import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.example.willowhealth.presentation.authentification.LoginScreen
+import com.example.willowhealth.presentation.main.MainScreen
 import com.example.willowhealth.presentation.splash.SurveyScreen
-import com.example.willowhealth.presentation.ui.screens.MainScreen
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -50,7 +49,7 @@ fun App() {
 
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Color.White
+            color = MaterialTheme.colors.background
         ) {
             Crossfade(targetState = AppRouter.currentScreen) { currentState ->
 
@@ -60,7 +59,6 @@ fun App() {
                     }
 
                     is Screen.MainScreen -> {
-                        Log.d("MyApp", "In navigate")
                         MainScreen()
                     }
 

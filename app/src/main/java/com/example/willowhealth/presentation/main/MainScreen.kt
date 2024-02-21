@@ -1,4 +1,4 @@
-package com.example.willowhealth.presentation.ui.screens
+package com.example.willowhealth.presentation.main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -19,6 +19,7 @@ import com.example.willowhealth.app.CHAT_SCREEN
 import com.example.willowhealth.app.INSIGHTS_SCREEN
 import com.example.willowhealth.app.SETTINGS_SCREEN
 import com.example.willowhealth.presentation.chat.ChatScreen
+import com.example.willowhealth.presentation.insights.InsightsScreen
 import com.example.willowhealth.presentation.settings.SettingsScreen
 import com.example.willowhealth.presentation.ui.components.NavigationItems
 

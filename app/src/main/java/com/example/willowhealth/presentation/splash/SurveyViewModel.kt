@@ -3,9 +3,9 @@ package com.example.willowhealth.presentation.splash
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.willowhealth.data.datasource.FirebaseAuthDataSource
 import com.example.willowhealth.data.datasource.FirebaseRealtimeSource
 import com.example.willowhealth.model.SurveyData
+import com.example.willowhealth.presentation.main.SharedPreferencesManager
 import com.example.willowhealth.presentation.main.TAG
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +16,7 @@ class SurveyViewModel : ViewModel() {
     val isLoading = mutableStateFlow.asStateFlow()
 
     var uiState =
-        mutableStateOf(SurveyData(userId = FirebaseAuthDataSource.getCurrentUser()?.uid ?: ""))
+        mutableStateOf(SurveyData())
         private set
 
     private val endSleepTime
@@ -34,14 +34,15 @@ class SurveyViewModel : ViewModel() {
     fun onSaveClick(timeStateForStart: LocalTime, timeStateForEnd: LocalTime) {
 
         uiState.value = uiState.value.copy(
-            startSleepTime = timeStateForStart,
-            endSleepTime = timeStateForEnd,
-            timestamp = System.currentTimeMillis()
+            startSleepTime = timeStateForStart.toSecondOfDay(),
+            endSleepTime = timeStateForEnd.toSecondOfDay(),
         )
         Log.d(TAG, "onSaveClick: before sending data to firebase")
         FirebaseRealtimeSource.saveSurveyData(uiState.value)
+        SharedPreferencesManager.saveCurrentDate()
         finish()
     }
+
 
     fun onRadioButtonClick(quality: Int) {
         uiState.value = uiState.value.copy(estimationSleep = quality)

@@ -3,17 +3,18 @@ package com.example.willowhealth.presentation.settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,17 +32,22 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+        horizontalAlignment = Alignment.CenterHorizontally,
+
+        ) {
 
         Icon(
             Icons.Rounded.AccountCircle,
-            contentDescription = null,
-            modifier = Modifier.width(30.dp)
+            contentDescription = "Account circle",
+            modifier = Modifier.size(100.dp),
         )
-        Text(text = FirebaseAuthDataSource.getName(), style = MaterialTheme.typography.h6)
+        Spacer(modifier = Modifier.padding(20.dp))
+        Text(
+            text = FirebaseAuthDataSource.getName(),
+            style = MaterialTheme.typography.h6, color = MaterialTheme.colors.onSecondary
+        )
 
-
+        Spacer(modifier = Modifier.padding(20.dp))
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -53,6 +59,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
                 viewModel.logOut()
                 AppRouter.navigateTo(Screen.LoginScreen)
             }
+
         }
 
     }
@@ -71,7 +78,10 @@ fun SettingsButton(text: String, onClick: () -> Unit) {
             onClick = {
                 onClick()
             },
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colors.surface, contentColor = MaterialTheme.colors.primary),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colors.surface,
+                contentColor = MaterialTheme.colors.primary
+            ),
             modifier = Modifier.fillMaxWidth()
 
         ) { Text(text = text, color = MaterialTheme.colors.onSurface) }

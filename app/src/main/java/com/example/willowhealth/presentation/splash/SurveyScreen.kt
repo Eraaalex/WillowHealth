@@ -123,9 +123,11 @@ fun SleepQualityEstimationRow(
 ) {
     val sleepQualityOptions = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
     val (selectedQuality, setSelectedQuality) = remember { mutableStateOf(initialQuality) } // Default value is 5
-    Column(modifier = Modifier
-        .padding(8.dp)
-        .fillMaxWidth()) {
+    Column(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+    ) {
         Row {
             sleepQualityOptions.forEach { quality ->
                 RadioButton(
@@ -139,7 +141,9 @@ fun SleepQualityEstimationRow(
                         unselectedColor = MaterialTheme.colors.secondary,
                         disabledColor = MaterialTheme.colors.onSurface
                     ),
-                    modifier = Modifier.padding(horizontal = 2.dp).width(10.dp)
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .width(10.dp)
                 )
             }
         }

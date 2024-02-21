@@ -1,11 +1,8 @@
 package com.example.willowhealth.data.datasource
 
-import android.util.Log
-import androidx.compose.ui.text.capitalize
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import java.util.Locale
 
 object FirebaseAuthDataSource {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -40,8 +37,9 @@ object FirebaseAuthDataSource {
         auth.signOut()
     }
 
-    fun getName() : String {
-        return auth.currentUser?.email?.substringBefore("@")?.replaceFirstChar { char -> char - 32 } ?: ""
+    fun getName(): String {
+        return auth.currentUser?.email?.substringBefore("@")?.replaceFirstChar { char -> char - 32 }
+            ?: ""
     }
 
 
