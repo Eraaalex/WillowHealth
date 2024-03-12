@@ -1,9 +1,11 @@
-package com.example.willowhealth.extention
+package com.example.willowhealth.utils
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
 import java.text.SimpleDateFormat
+import java.time.DayOfWeek
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
@@ -23,4 +25,19 @@ fun TimePickerState.toLocalTime(): LocalTime {
 
 fun Long.toLocalDateTime() =
     LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
+
+
+fun getCurrentDayOfWeek(): DayOfWeek =  LocalDate.now().dayOfWeek
+
+fun DayOfWeek.toShortString() : String {
+    return when(this){
+        DayOfWeek.MONDAY -> "Mon"
+        DayOfWeek.TUESDAY -> "Tue"
+        DayOfWeek.WEDNESDAY -> "Wed"
+        DayOfWeek.THURSDAY -> "Thu"
+        DayOfWeek.FRIDAY -> "Fri"
+        DayOfWeek.SATURDAY -> "Sat"
+        DayOfWeek.SUNDAY -> "Sun"
+    }
+}
 

@@ -31,25 +31,30 @@ fun StepsCard(value: Int = 0, normalValue: Int = 6000) {
         shape = RoundedCornerShape(15.dp),
         backgroundColor = Green900
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+        Column(
             modifier = Modifier.padding(12.dp, 8.dp)
         ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(text = value.toString(), color = Green500, fontSize = 30.sp)
-                Text(text = "/$normalValue", color = Green500, fontSize = 15.sp)
-            }
-            LinearProgressIndicator(
-                progress = value / normalValue.toFloat(),
-                modifier = Modifier
-                    .height(15.dp)
-                    .weight(1.5f)
-                    .clip(RoundedCornerShape(8.dp)),
-                color = Green800
-            )
+            Text(text = "Steps", color = Green500, fontSize = 20.sp, modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(text = value.toString(), color = Green500, fontSize = 30.sp)
+                    Text(text = "/$normalValue", color = Green500, fontSize = 15.sp)
+                }
+                LinearProgressIndicator(
+                    progress = value / normalValue.toFloat(),
+                    modifier = Modifier
+                        .height(15.dp)
+                        .weight(1.5f)
+                        .clip(RoundedCornerShape(8.dp)),
+                    color = Green800
+                )
 
+            }
         }
+
     }
 }
 

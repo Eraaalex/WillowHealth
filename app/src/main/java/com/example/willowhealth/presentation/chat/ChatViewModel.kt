@@ -3,15 +3,12 @@ package com.example.willowhealth.presentation.chat
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.willowhealth.data.datasource.FirebaseAuthDataSource
-import com.example.willowhealth.data.datasource.FirebaseRealtimeSource
+import com.example.willowhealth.data.datasource.FirebaseRealtimeSource.getSurveyDataString
 import com.example.willowhealth.model.Message
 import com.example.willowhealth.model.MessageType
-import com.example.willowhealth.model.SurveyData
 import com.example.willowhealth.presentation.main.TAG
 import com.example.willowhealth.service.GPTService
 import kotlinx.coroutines.launch
@@ -26,36 +23,38 @@ class ChatViewModel : ViewModel() {
     var chatMessages = mutableStateOf(listOf<Message>())
 
 
-    fun sendMessage(text: String, sendBy: MessageType = MessageType.SENT_BY_ME) {
+    private fun sendMessage(text: String, sendBy: MessageType = MessageType.SENT_BY_ME) {
         val currentMessages = chatMessages.value.toMutableList()
         currentMessages.add(Message(text, sendBy))
 
         viewModelScope.launch {
-            getSurveyData()
-            respond.value = GPTService.getGPTResponse(text)
+            val intro = getIntroductionRequest()
+            respond.value = GPTService.getGPTResponse(intro + text)
             currentMessages.add(Message(respond.value, MessageType.SENT_BY_BOT))
             chatMessages.value = currentMessages
         }
     }
 
-
-    fun getSurveyData(
+    private suspend fun getIntroductionRequest(
         userId: String = FirebaseAuthDataSource.getCurrentUser()?.uid ?: ""
-    ): LiveData<List<SurveyData>> {
-        val surveyDataLiveData = MutableLiveData<List<SurveyData>>()
+    ): String {
+        var intro: String =
+            "I am writing to seek your expertise in analyzing the sleep quality data of the respondent mentioned above." +
+                    " The provided survey data covers a week-long period and includes various metrics related to their sleep patterns and subjective experiences.\n" +
+                    "\n" +
+                    "Analysis Request:\n" +
+                    "\n" +
+                    "Could you please analyze the trends and patterns observed in the respondent's sleep data over the past week?\n" +
+                    "Identify any potential issues or areas for improvement based on the data provided.\n" +
+                    "Offer insights into factors that may be contributing to any observed sleep disturbances or poor sleep quality.\n" +
+                    "Provide personalized advice or recommendations to help the respondent improve their sleep quality and overall well-being." +
+                    "Survey Data: \n"
 
-        viewModelScope.launch {
-            try {
-                val surveyDataList = FirebaseRealtimeSource.fetchSurveyData(userId)
-                surveyDataLiveData.postValue(surveyDataList)
-                Log.e(TAG, "[VM]:" + surveyDataList.toString())
-            } catch (e: Exception) {
-                // Handle exception if needed
-                Log.e(TAG, "Error fetching survey data: ${e.message}")
-            }
-        }
 
-        return surveyDataLiveData
+        intro += getSurveyDataString()
+
+        Log.d(TAG, "[INTRO]" + intro)
+        return intro
     }
 
     fun onSendClick() {
@@ -68,5 +67,10 @@ class ChatViewModel : ViewModel() {
 
     fun onInputChange(newValue: String) {
         message.value = message.value.copy(newValue)
+    }
+
+    fun setInitialText(intro: String) {
+        sendMessage(intro, MessageType.SENT_BY_BOT)
+
     }
 }

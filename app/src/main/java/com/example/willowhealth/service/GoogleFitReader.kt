@@ -2,7 +2,7 @@ package com.example.willowhealth.service
 
 import android.content.Context
 import android.util.Log
-import com.example.willowhealth.extention.getFormattingTime
+import com.example.willowhealth.utils.getFormattingTime
 import com.example.willowhealth.repository.AccountRepository
 import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.FitnessOptions

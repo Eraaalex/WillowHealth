@@ -26,24 +26,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.willowhealth.presentation.ui.theme.Grey500
 import com.example.willowhealth.presentation.ui.theme.Grey600
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import com.example.willowhealth.presentation.ui.theme.LightBlue
+import com.example.willowhealth.utils.toShortString
+import java.time.DayOfWeek
 
 /**  Graphics Card **/
 
 @Composable
 internal fun BarChart(
-    modifier: Modifier = Modifier.padding(8.dp),
-    values: List<Pair<LocalDate, Int>>,
+    modifier: Modifier = Modifier.padding(4.dp),
+    values: Map<DayOfWeek, Int>,
     maxHeight: Dp = 180.dp
 ) {
-    val average = values.sumOf { it.second } / values.size
-    val maxValue = values.maxOf { it.second }
+    val average = values.values.sumOf { it } / values.size
+    val maxValue = values.values.maxOf { it }
     val averageLineY = with(LocalDensity.current) {
         (average * maxHeight.value / maxValue).dp.toPx()
     }
@@ -84,26 +87,19 @@ internal fun BarChart(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom
             ) {
-                // Ensure there are 7 bars in the chart
-                val fullValues = if (values.size < 7) {
-                    List(7 - values.size) { LocalDate.now() to 0 } + values
-                } else {
-                    values
-                }
 
-                val formatter = DateTimeFormatter.ofPattern("EEE")
-
-                fullValues.forEach { (date, value) ->
-                    val dayLabel = date.format(formatter)
+                values.toList().sortedBy { day -> day.first }.forEach { (date, value) ->
+                    val dayLabel = date.toShortString()
                     Bar(
-                        value = value,
+                        value = (value),
                         label = dayLabel,
-                        color = MaterialTheme.colors.onBackground,
+                        color = LightBlue,
                         maxHeight = maxHeight,
+                        minHeight = 1.dp,
                         maxValue = maxValue
                     )
-                }
 
+                }
 
             }
             Canvas(
@@ -131,6 +127,7 @@ private fun RowScope.Bar(
     label: String,
     color: Color,
     maxHeight: Dp,
+    minHeight: Dp,
     maxValue: Int
 ) {
     val itemHeight = remember(value) { value * maxHeight.value / maxValue }
@@ -140,19 +137,20 @@ private fun RowScope.Bar(
             .weight(1f)
             .padding(horizontal = 5.dp)
             .clip(RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp))
-            .background(Grey600),
+            .background(color),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(
             modifier = Modifier
-                .height(itemHeight.dp)
+                .height(itemHeight.dp + minHeight)
                 .fillMaxWidth()
-                .background(Grey600)
+                .background(color)
         )
         Text(
             text = label,
             modifier = Modifier.padding(top = 4.dp),
-            color = MaterialTheme.colors.onPrimary
+            color = MaterialTheme.colors.onPrimary,
+            style = TextStyle(fontSize = 11.sp)
         )
     }
 }
@@ -161,14 +159,14 @@ private fun RowScope.Bar(
 @Composable
 fun BarChartPreview() {
     BarChart(
-        values = listOf(
-            LocalDate.now() to 100,
-            LocalDate.now() to 200,
-            LocalDate.now() to 279,
-            LocalDate.now() to 300,
-            LocalDate.of(2024, 1, 1) to 300,
-            LocalDate.now() to 700,
-            LocalDate.now() to 300,
+        values = mutableMapOf(
+            (DayOfWeek.MONDAY to 666),
+            (DayOfWeek.TUESDAY to 686),
+            (DayOfWeek.WEDNESDAY to 866),
+            (DayOfWeek.THURSDAY to 966),
+            (DayOfWeek.FRIDAY to 666),
+            (DayOfWeek.SATURDAY to 600),
+            (DayOfWeek.SUNDAY to 0),
         )
     )
 

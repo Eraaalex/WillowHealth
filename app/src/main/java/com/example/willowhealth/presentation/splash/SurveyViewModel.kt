@@ -1,12 +1,10 @@
 package com.example.willowhealth.presentation.splash
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.willowhealth.data.datasource.FirebaseRealtimeSource
 import com.example.willowhealth.model.SurveyData
 import com.example.willowhealth.presentation.main.SharedPreferencesManager
-import com.example.willowhealth.presentation.main.TAG
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.time.LocalTime
@@ -37,8 +35,7 @@ class SurveyViewModel : ViewModel() {
             startSleepTime = timeStateForStart.toSecondOfDay(),
             endSleepTime = timeStateForEnd.toSecondOfDay(),
         )
-        Log.d(TAG, "onSaveClick: before sending data to firebase")
-        FirebaseRealtimeSource.saveSurveyData(uiState.value)
+        FirebaseRealtimeSource.saveSurveyData(uiState.value, "Surveys")
         SharedPreferencesManager.saveCurrentDate()
         finish()
     }

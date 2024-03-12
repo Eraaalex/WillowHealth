@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,17 +15,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.materialPath
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +44,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.willowhealth.model.Message
 import com.example.willowhealth.model.MessageType
 
@@ -59,7 +61,7 @@ fun ButtonComponent(
             onButtonClicked()
         },
         modifier = modifier.fillMaxHeight(),
-        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondary),
+        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.onPrimary),
         enabled = isEnabled,
         shape = RoundedCornerShape(18)
     ) {
@@ -210,7 +212,7 @@ fun OutlinedTextFieldLogIn(
         visualTransformation = visual,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = MaterialTheme.colors.secondary,
-            textColor = MaterialTheme.colors.primary,
+            textColor = MaterialTheme.colors.onPrimary,
             focusedLabelColor = MaterialTheme.colors.secondary,
         )
     )
@@ -247,7 +249,6 @@ fun ChatMessage(message: Message) {
         ChatBotMessage(message = message)
     }
 }
-
 @Composable
 fun ChatBotMessage(modifier: Modifier = Modifier, message: Message) {
     Box(
@@ -294,6 +295,12 @@ fun ChatBotMessagePreview(message: Message = Message("Hello!", MessageType.SENT_
 
 }
 
+@Preview
+@Composable
+fun ChatInputFiledPreview() {
+    ChatInputFiled(text = "Hello", onButtonClicked = { })
+}
+
 @Composable
 fun ChatInputFiled(
     text: String,
@@ -301,19 +308,18 @@ fun ChatInputFiled(
     onButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
-
     TextField(
         value = text,
         onValueChange = onTextValueChanged,
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .height(44.dp).padding(vertical = 0.dp),
         shape = RoundedCornerShape(16.dp),
-        textStyle = TextStyle(color = Color.Black),
-        leadingIcon = {
+        textStyle = TextStyle(color =  MaterialTheme.colors.onSurface, fontSize = 14.sp),
+        trailingIcon = {
             IconButton(
                 onClick = { onButtonClicked() },
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(20.dp)
             ) {
                 Icon(
                     imageVector = Icons.Filled.Send,
@@ -321,7 +327,12 @@ fun ChatInputFiled(
                 )
             }
         },
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = MaterialTheme.colors.surface,
+            textColor = MaterialTheme.colors.onSurface,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        )
     )
-
-
 }

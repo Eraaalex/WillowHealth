@@ -28,11 +28,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.willowhealth.app.AppRouter
 import com.example.willowhealth.app.Screen
-import com.example.willowhealth.extention.toLocalTime
+import com.example.willowhealth.utils.toLocalTime
 import com.example.willowhealth.presentation.main.TAG
 import com.example.willowhealth.presentation.ui.components.survey.QuestionSleepCard
 
@@ -108,12 +109,16 @@ fun QuestionEstimationSleep(question: String, state: Int, onSleepQualitySelected
                 question,
                 fontSize = MaterialTheme.typography.h6.fontSize,
             )
-            SleepQualityEstimationRow(state, onSleepQualitySelected = { quality ->
-                sleepQuality = quality
-            })
+            SleepQualityEstimationRow(state, onSleepQualitySelected =  onSleepQualitySelected)
         }
     }
 
+}
+
+@Preview
+@Composable
+fun SleepQualityEstimationRowPreview(){
+    SleepQualityEstimationRow(5, {} )
 }
 
 @Composable
@@ -142,7 +147,7 @@ fun SleepQualityEstimationRow(
                         disabledColor = MaterialTheme.colors.onSurface
                     ),
                     modifier = Modifier
-                        .padding(horizontal = 2.dp)
+                        .padding(horizontal = 12.dp)
                         .width(10.dp)
                 )
             }
@@ -151,7 +156,7 @@ fun SleepQualityEstimationRow(
             sleepQualityOptions.forEach { quality ->
                 Text(
                     text = quality.toString(),
-                    modifier = Modifier.padding(horizontal = 2.dp)
+                    modifier = Modifier.padding(horizontal = 12.dp).width(10.dp)
                 )
             }
         }

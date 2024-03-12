@@ -14,9 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.willowhealth.R
+import com.example.willowhealth.model.Message
+import com.example.willowhealth.model.MessageType
 import com.example.willowhealth.presentation.ui.components.ChatInputFiled
 import com.example.willowhealth.presentation.ui.components.ChatMessage
 
@@ -33,14 +37,21 @@ fun ChatScreen(viewModel: ChatViewModel = viewModel()) {
         viewModel.chatMessages
     }
 
+
     val listState = rememberLazyListState()
-    val (lazyColumn, chatInputField) = createRefs()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp, 50.dp)
+            .padding(8.dp, 10.dp, 8.dp, 50.dp)
     ) {
+//        ChatMessage(
+//            message = Message(
+//                stringResource(
+//                    R.string.initial_gpt_message
+//                ), MessageType.SENT_BY_BOT
+//            ),
+//        )
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -50,6 +61,7 @@ fun ChatScreen(viewModel: ChatViewModel = viewModel()) {
             verticalArrangement = Arrangement.Bottom
 
         ) {
+
             items(chatMessages.size) { index ->
                 ChatMessage(message = chatMessages[index])
             }

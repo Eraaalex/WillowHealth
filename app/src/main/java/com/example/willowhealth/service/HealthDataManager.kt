@@ -26,7 +26,12 @@ open class HealthDataManagerGoogleImpl(
         return when (metric) {
             HealthMetric.STEPS -> getStepsData(startDate, endDate)
             HealthMetric.CALORIES -> getCaloriesData()
+            HealthMetric.SLEEP -> getSleepData()
         }
+    }
+
+    private fun getSleepData(): HashMap<String, HashMap<String, HashMap<String, Int>>> {
+    return hashMapOf()
     }
 
 

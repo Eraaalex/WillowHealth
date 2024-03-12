@@ -35,7 +35,7 @@ object GPTService {
             return response
         } catch (e: Exception) {
             Log.d(TAG, "getGPTResponse: ERROR: ${e.message ?: ""}")
-            return "Error occurred"
+            return "Error occurred " + e.message ?: ""
         }
 
     }

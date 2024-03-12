@@ -31,7 +31,7 @@ import com.example.willowhealth.presentation.ui.theme.WillowTheme
 /**  Sleep Card **/
 
 @Composable
-fun Sleep(hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
+fun SleepCard(hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
@@ -40,70 +40,74 @@ fun Sleep(hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
         elevation = 2.dp,
         backgroundColor = MaterialTheme.colors.surface,
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.padding(12.dp, 8.dp)
-        ) {
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                Text(
-                    buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colors.onSurface,
-                                fontSize = 28.sp
-                            )
-                        ) {
-                            append("$hours")
-                        }
-                        withStyle(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colors.onSecondary
-                            )
-                        ) {
-                            append("hr ")
-                        }
-                        withStyle(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colors.onSurface,
-                                fontSize = 28.sp
-                            )
-                        ) {
-                            append("$mins")
-                        }
-                        withStyle(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colors.onSecondary
-                            )
-                        ) {
-                            append("min")
-                        }
-                    }
-                )
-                Text(
-                    text = "/$normalValue hours 00 mins",
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.onSecondary,
-                    fontSize = 15.sp
-                )
-            }
-            LinearProgressIndicator(
-                progress = (hours * 60 + mins) / (normalValue.toFloat() * 60),
-                modifier = Modifier
-                    .height(15.dp)
-                    .weight(1.5f)
-                    .clip(RoundedCornerShape(8.dp)),
-                color = LightBlue
-            )
+        Column(modifier = Modifier.padding(12.dp, 8.dp)) {
+            Text(text = "Sleep", color = MaterialTheme.colors.onSurface, fontSize = 20.sp, modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
 
+                ) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Text(
+                        buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colors.onSurface,
+                                    fontSize = 28.sp
+                                )
+                            ) {
+                                append("$hours")
+                            }
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colors.onSecondary
+                                )
+                            ) {
+                                append("hr ")
+                            }
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colors.onSurface,
+                                    fontSize = 28.sp
+                                )
+                            ) {
+                                append("$mins")
+                            }
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colors.onSecondary
+                                )
+                            ) {
+                                append("min")
+                            }
+                        }
+                    )
+                    Text(
+                        text = "/$normalValue hours 00 min",
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colors.onSecondary,
+                        fontSize = 15.sp
+                    )
+                }
+                LinearProgressIndicator(
+                    progress = (hours * 60 + mins) / (normalValue.toFloat() * 60),
+                    modifier = Modifier
+                        .height(15.dp)
+                        .weight(1.5f)
+                        .clip(RoundedCornerShape(8.dp)),
+                    color = LightBlue
+                )
+
+            }
         }
+
     }
 }
 
@@ -112,7 +116,7 @@ fun Sleep(hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
 @Composable
 fun SleepPreview() {
     WillowTheme(darkTheme = true) {
-        Sleep(7, 0)
+        SleepCard(7, 0)
     }
 
 }

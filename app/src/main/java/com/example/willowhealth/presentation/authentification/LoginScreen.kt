@@ -98,8 +98,6 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                     } else {
                         AppRouter.navigateTo(Screen.MainScreen)
                     }
-
-
                 },
                 isEnabled = viewModel.allValidationPassed.value,
                 modifier = Modifier.weight(1f)

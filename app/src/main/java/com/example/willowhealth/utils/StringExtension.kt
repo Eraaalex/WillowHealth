@@ -1,4 +1,4 @@
-package com.example.willowhealth.extention
+package com.example.willowhealth.utils
 
 private const val MIN_PASS_LENGTH = 6
 private const val MIN_PHONE_LENGTH = 10

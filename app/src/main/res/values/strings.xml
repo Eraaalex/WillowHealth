@@ -5,4 +5,21 @@
     <string name="navigation_item_settings">Settings</string>
     <string name="navigation_item_name">Name</string>
     <string  name = "question_sleep_time">How many hours did you sleep?</string>
+    <string  name = "initial_gpt_message">Welcome to our Willow Health Assistant!
+        Our chatbot is here to assist you in analyzing and improving your health habits.
+        Whether you are looking to optimize your sleep patterns or track your daily steps,
+        our chatbot is designed to provide you with personalized insights and guidance.
+        Simply engage with our chatbot to start your journey towards better health and well-being.
+        Let is work together to achieve your health goals!</string>
+    <string name="intro_survey_message"> I am writing to seek your expertise in analyzing the sleep quality data of the respondent mentioned above.
+        The provided survey data covers a week-long period and includes various metrics related to their sleep patterns and subjective experiences.
+        Analysis Request:
+        Could you please analyze the trends and patterns observed in the respondent\'s sleep data over the past week?
+        Identify any potential issues or areas for improvement based on the data provided.
+        Offer insights into factors that may be contributing to any observed sleep disturbances or poor sleep quality.
+        Provide personalized advice or recommendations to help the respondent improve their sleep quality and overall well-being.
+        User request (can be empty): %s
+        Survey Data:
+    </string>
+
 </resources>

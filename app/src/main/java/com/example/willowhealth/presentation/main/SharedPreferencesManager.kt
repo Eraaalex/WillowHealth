@@ -2,6 +2,7 @@ package com.example.willowhealth.presentation.main
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import java.util.Calendar
 
 object SharedPreferencesManager {
@@ -24,6 +25,7 @@ object SharedPreferencesManager {
 
     fun isSurveyCompleted(): Boolean {
         val savedDate = getSavedDate()
+        Log.d(TAG, "[isSurveyCompleted] LAST TIME " + savedDate)
         if (savedDate == 0L) {
             return false
         }

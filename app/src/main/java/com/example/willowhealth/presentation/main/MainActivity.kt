@@ -3,6 +3,7 @@ package com.example.willowhealth.presentation.main
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
@@ -15,6 +16,7 @@ import com.example.willowhealth.app.WillowHealth
 import com.example.willowhealth.data.datasource.FirebaseAuthDataSource
 import com.example.willowhealth.presentation.main.di.getMainModule
 import com.example.willowhealth.presentation.ui.theme.WillowTheme
+import java.time.DayOfWeek
 import java.util.Calendar
 
 const val TAG: String = "MyApp"
@@ -41,13 +43,12 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun initialNavigation() {
-
-
         if (FirebaseAuthDataSource.getCurrentUser() != null) {
             val hourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-            if ((hourOfDay > 22 || hourOfDay < 13) && !SharedPreferencesManager.isSurveyCompleted()) { // TIME TO SURVEY
+            if ((hourOfDay > 22 || hourOfDay < 21) ) { // TIME TO SURVEY &&!SharedPreferencesManager.isSurveyCompleted()
                 AppRouter.navigateTo(Screen.SurveyScreen)
             } else {
+                Log.d(TAG, "AppRouter.navigateTo(Screen.MainScreen)")
                 AppRouter.navigateTo(Screen.MainScreen)
             }
 
@@ -55,13 +56,8 @@ class MainActivity : ComponentActivity() {
             AppRouter.navigateTo(Screen.LoginScreen)
         }
     }
+
+
 }
 
 
-@Composable
-fun StepsScreen(viewModel: MainViewModel) {
-    val stepsData = viewModel.steps.observeAsState()
-    stepsData.value?.let {
-        Text(text = it.toString())
-    }
-}
