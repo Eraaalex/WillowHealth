@@ -31,7 +31,7 @@ open class HealthDataManagerGoogleImpl(
     }
 
     private fun getSleepData(): HashMap<String, HashMap<String, HashMap<String, Int>>> {
-    return hashMapOf()
+        return hashMapOf()
     }
 
 

@@ -41,7 +41,7 @@ fun SleepCard(hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
         backgroundColor = MaterialTheme.colors.surface,
     ) {
         Column(modifier = Modifier.padding(12.dp, 8.dp)) {
-            Text(text = "Sleep", color = MaterialTheme.colors.onSurface, fontSize = 20.sp, modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 8.dp))
+            Title(text = "Sleep")
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -121,4 +121,14 @@ fun SleepPreview() {
 
 }
 
+
+@Composable
+fun Title(text: String) {
+    Text(
+        text = text,
+        color = MaterialTheme.colors.onSurface,
+        fontSize = 20.sp,
+        modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 8.dp)
+    )
+}
 

@@ -2,8 +2,8 @@ package com.example.willowhealth.service
 
 import android.content.Context
 import android.util.Log
-import com.example.willowhealth.utils.getFormattingTime
 import com.example.willowhealth.repository.AccountRepository
+import com.example.willowhealth.utils.getFormattingTime
 import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataType

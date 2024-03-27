@@ -1,4 +1,4 @@
-package com.example.willowhealth.presentation.splash
+package com.example.willowhealth.presentation.survey
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
@@ -33,25 +35,28 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.willowhealth.app.AppRouter
 import com.example.willowhealth.app.Screen
-import com.example.willowhealth.utils.toLocalTime
-import com.example.willowhealth.presentation.main.TAG
+import com.example.willowhealth.main.TAG
+import com.example.willowhealth.presentation.ui.components.insights.MissionCard
 import com.example.willowhealth.presentation.ui.components.survey.QuestionSleepCard
+import com.example.willowhealth.utils.toLocalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SurveyScreen(viewModel: SurveyViewModel = viewModel()) {
 
     val uiState by viewModel.uiState
-
+    val missions by viewModel.missions
+    val scrollState = rememberScrollState()
     val timeStateForStart = rememberTimePickerState(22, 0, false)
     val timeStateForEnd = rememberTimePickerState(8, 0, false)
-    var selectedDisturbances = remember { mutableStateOf(listOf<String>()) }
+    val selectedDisturbances = remember { mutableStateOf(listOf<String>()) }
     val disturbances =
         listOf("Woke up frequently", "Had difficulty falling asleep", "Experienced nightmares")
 
     Column(
         modifier = Modifier
-            .background(MaterialTheme.colors.background),
+            .background(MaterialTheme.colors.background)
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         QuestionSleepCard(
@@ -69,6 +74,11 @@ fun SurveyScreen(viewModel: SurveyViewModel = viewModel()) {
             onDisturbancesSelected = {},
             selectedDisturbances = selectedDisturbances
         )
+
+        if (missions.isNotEmpty()) {
+            MissionCard(value = missions, viewModel::updateMissionTemporaryCheckedState)
+        }
+
 
         Button(
             onClick = {
@@ -109,7 +119,7 @@ fun QuestionEstimationSleep(question: String, state: Int, onSleepQualitySelected
                 question,
                 fontSize = MaterialTheme.typography.h6.fontSize,
             )
-            SleepQualityEstimationRow(state, onSleepQualitySelected =  onSleepQualitySelected)
+            SleepQualityEstimationRow(state, onSleepQualitySelected = onSleepQualitySelected)
         }
     }
 
@@ -117,8 +127,8 @@ fun QuestionEstimationSleep(question: String, state: Int, onSleepQualitySelected
 
 @Preview
 @Composable
-fun SleepQualityEstimationRowPreview(){
-    SleepQualityEstimationRow(5, {} )
+fun SleepQualityEstimationRowPreview() {
+    SleepQualityEstimationRow(5, {})
 }
 
 @Composable
@@ -156,7 +166,9 @@ fun SleepQualityEstimationRow(
             sleepQualityOptions.forEach { quality ->
                 Text(
                     text = quality.toString(),
-                    modifier = Modifier.padding(horizontal = 12.dp).width(10.dp)
+                    modifier = Modifier
+                        .padding(horizontal = 12.dp)
+                        .width(10.dp)
                 )
             }
         }
@@ -193,7 +205,9 @@ fun QuestionSleepDisturbances(
             ) {
                 Checkbox(
                     checked = selectedDisturbances.value.contains(disturbance),
-                    onCheckedChange = null
+                    onCheckedChange = {
+
+                    }
                 )
                 Text(
                     text = disturbance,

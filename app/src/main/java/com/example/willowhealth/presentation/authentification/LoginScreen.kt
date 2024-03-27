@@ -12,32 +12,46 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.willowhealth.app.AppRouter
 import com.example.willowhealth.app.Screen
-import com.example.willowhealth.presentation.main.TAG
 import com.example.willowhealth.presentation.ui.components.ButtonComponent
 import com.example.willowhealth.presentation.ui.components.OutlinedTextFieldLogIn
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
+fun LoginScreen(snackbarHostState: SnackbarHostState, viewModel: LoginViewModel = koinViewModel()) {
     val uiState by viewModel.uiState
-    var message by viewModel.message
 
-    val snackbarHostState = remember { SnackbarHostState() }
-    val showSnackbar = remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    val message by viewModel.snackbarMessage.collectAsState()
+
+    val navigateToMain by viewModel.navigateToMainScreen.collectAsState()
+
+    LaunchedEffect(message) {
+        if (message.isNotEmpty()) {
+            scope.launch {
+                snackbarHostState.showSnackbar(message)
+                viewModel.clearSnackbarMessage()
+            }
+        }
+    }
+    LaunchedEffect(navigateToMain) {
+        if (navigateToMain) {
+            AppRouter.navigateTo(Screen.MainScreen)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -78,8 +92,6 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                 text = "Sign In",
                 onButtonClicked = {
                     viewModel.onSignInClick()
-                    Log.d("MyApp", "Click on Sign In")
-                    AppRouter.navigateTo(Screen.MainScreen)
                 },
                 isEnabled = viewModel.allValidationPassed.value,
                 modifier = Modifier.weight(1f)
@@ -89,28 +101,12 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
 
             ButtonComponent(
                 text = "Sign Up",
-
                 onButtonClicked = {
                     viewModel.onSignUpClick()
-                    Log.d("MyApp", "Click on Sign Up")
-                    if (message != "") {
-                        showSnackbar.value = true
-                    } else {
-                        AppRouter.navigateTo(Screen.MainScreen)
-                    }
                 },
                 isEnabled = viewModel.allValidationPassed.value,
                 modifier = Modifier.weight(1f)
             )
-        }
-
-
-        LaunchedEffect(showSnackbar.value) {
-            if (showSnackbar.value) {
-                snackbarHostState.showSnackbar("Please check your inputs")
-                showSnackbar.value = false
-            }
-            Log.d(TAG, "showSnackbar: $showSnackbar")
         }
     }
 

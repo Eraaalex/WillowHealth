@@ -9,7 +9,7 @@ import com.aallam.openai.api.chat.ChatRole
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import com.example.willowhealth.KEY
-import com.example.willowhealth.presentation.main.TAG
+import com.example.willowhealth.main.TAG
 
 
 object GPTService {
@@ -35,7 +35,7 @@ object GPTService {
             return response
         } catch (e: Exception) {
             Log.d(TAG, "getGPTResponse: ERROR: ${e.message ?: ""}")
-            return "Error occurred " + e.message ?: ""
+            return "Error occurred " + e.message
         }
 
     }

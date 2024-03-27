@@ -30,12 +30,9 @@ import com.example.willowhealth.data.datasource.FirebaseAuthDataSource
 fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
-
-        ) {
-
+    ) {
         Icon(
             Icons.Rounded.AccountCircle,
             contentDescription = "Account circle",
@@ -46,7 +43,6 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
             text = FirebaseAuthDataSource.getName(),
             style = MaterialTheme.typography.h6, color = MaterialTheme.colors.onSecondary
         )
-
         Spacer(modifier = Modifier.padding(20.dp))
         Card(
             modifier = Modifier

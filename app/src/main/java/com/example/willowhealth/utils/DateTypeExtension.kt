@@ -27,10 +27,10 @@ fun Long.toLocalDateTime() =
     LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
 
 
-fun getCurrentDayOfWeek(): DayOfWeek =  LocalDate.now().dayOfWeek
+fun getCurrentDayOfWeek(): DayOfWeek = LocalDate.now().dayOfWeek
 
-fun DayOfWeek.toShortString() : String {
-    return when(this){
+fun DayOfWeek.toShortString(): String {
+    return when (this) {
         DayOfWeek.MONDAY -> "Mon"
         DayOfWeek.TUESDAY -> "Tue"
         DayOfWeek.WEDNESDAY -> "Wed"

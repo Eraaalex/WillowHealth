@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.willowhealth.data.datasource.FirebaseAuthDataSource
 import com.example.willowhealth.data.datasource.FirebaseRealtimeSource.getSurveyDataString
+import com.example.willowhealth.main.TAG
 import com.example.willowhealth.model.Message
 import com.example.willowhealth.model.MessageType
-import com.example.willowhealth.presentation.main.TAG
 import com.example.willowhealth.service.GPTService
 import kotlinx.coroutines.launch
 

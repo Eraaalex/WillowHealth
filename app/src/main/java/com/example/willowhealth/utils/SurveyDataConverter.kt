@@ -1,15 +1,15 @@
 package com.example.willowhealth.utils
 
 import android.util.Log
+import com.example.willowhealth.main.TAG
 import com.example.willowhealth.model.SurveyData
-import com.example.willowhealth.presentation.main.TAG
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-public fun SurveyData.toGPTRequestForm(): String {
+fun SurveyData.toGPTRequestForm(): String {
     if (this.startSleepTime == 0 || this.endSleepTime == 0) {
         return "I don't have enough data to generate a report. Please fill out the survey."
     }

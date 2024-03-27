@@ -1,14 +1,15 @@
 package com.example.willowhealth.data.datasource
 
 import android.util.Log
+import com.example.willowhealth.main.TAG
 import com.example.willowhealth.model.MissionData
 import com.example.willowhealth.model.SurveyData
 import com.example.willowhealth.model.UserData
-import com.example.willowhealth.presentation.main.TAG
 import com.example.willowhealth.utils.getCurrentDayOfWeek
 import com.example.willowhealth.utils.toGPTRequestForm
 import com.example.willowhealth.utils.toLocalDate
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.getValue
 import kotlinx.coroutines.tasks.await
 import java.time.DayOfWeek
 import java.util.concurrent.TimeUnit
@@ -17,11 +18,12 @@ object FirebaseRealtimeSource {
     private val database = FirebaseDatabase
         .getInstance("https://willowhealth-default-rtdb.europe-west1.firebasedatabase.app")
 
-    val databaseReferenceSurvey = database.getReference("Surveys")
+    private val databaseReferenceSurvey = database.getReference("Surveys")
+    private val databaseReferenceMission = database.getReference("Missions")
 
-    fun saveSurveyData(userData: UserData, reference: String) {
+    fun saveSurveyData(userData: UserData) {
         val userId = FirebaseAuthDataSource.getCurrentUser()?.uid
-        val databaseReference = database.getReference(reference)
+        val databaseReference = databaseReferenceSurvey
         userId?.let {
             val userDataId = databaseReference.child(userId)
                 .push().key
@@ -34,6 +36,33 @@ object FirebaseRealtimeSource {
                 }
         }
     }
+
+    suspend fun fetchMissionsForWeek(week: Int): List<MissionData> {
+        val userId = FirebaseAuthDataSource.getCurrentUser()?.uid ?: ""
+        val databaseReference = databaseReferenceMission
+
+        val snapshot = databaseReference.child(userId).child("Week" + week).get().await()
+        val missions = mutableListOf<MissionData>()
+
+        for (childSnapshot in snapshot.children) {
+            val mission = childSnapshot.getValue<MissionData>()
+            mission?.let { missions.add(it) }
+        }
+
+        return missions
+    }
+
+    suspend fun updateMission(mission: MissionData) {
+        val userId = FirebaseAuthDataSource.getCurrentUser()?.uid ?: ""
+        val updateMap = mapOf("isChecked" to mission.isChecked)
+        databaseReferenceMission
+            .child(userId)
+            .child("week" + 1) // TODO week checking
+            .child("mission" + mission.number)
+            .updateChildren(updateMap).await()
+
+    }
+
 
     private suspend fun fetchSurveyData(
         userId: String,
@@ -66,25 +95,13 @@ object FirebaseRealtimeSource {
         surveyRef.setValue(survey)
     }
 
-    suspend fun getMissions( userId: String = FirebaseAuthDataSource.getCurrentUser()?.uid ?: ""){
+    suspend fun getMissions(userId: String = FirebaseAuthDataSource.getCurrentUser()?.uid ?: "") {
         val res = database.getReference("Missions").child(userId).get().await()
         Log.e(TAG, "getMissions: $res")
     }
-//    fun fetchMissionsForWeek(userId: String, week: String) {
-//        val weekRef = FirebaseRealtimeSource.database.getReference("users/$userId/$week")
-//        weekRef.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                val missions = snapshot.children.mapNotNull { it.getValue(MissionData::class.java) }
-//                // Use your list of missions here
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                // Handle possible errors
-//            }
-//        })
-//    }
+
     fun addMissionToWeek(userId: String, week: String, mission: MissionData) {
-        val missionRef = FirebaseRealtimeSource.database.getReference("users/$userId/$week")
+        val missionRef = database.getReference("users/$userId/$week")
         val newMissionRef = missionRef.push() // Creates a new child with a unique key
         newMissionRef.setValue(mission)
     }
@@ -120,9 +137,15 @@ object FirebaseRealtimeSource {
                     if (dayOfWeek <= currentDayOfWeek) {
                         surveyDataMap.put(
                             it.timestamp.toLocalDate().dayOfWeek,
-                            (it.startSleepTime - it.endSleepTime)
+                            (-it.startSleepTime + it.endSleepTime +
+                                    if (it.startSleepTime > it.endSleepTime)
+                                        0
+                                    else
+                                        0
+                                    )
                         )
                     }
+
 
                 }
             }

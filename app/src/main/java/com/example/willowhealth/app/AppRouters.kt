@@ -1,16 +1,24 @@
 package com.example.willowhealth.app
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Snackbar
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.example.willowhealth.main.MainScreen
 import com.example.willowhealth.presentation.authentification.LoginScreen
-import com.example.willowhealth.presentation.main.MainScreen
-import com.example.willowhealth.presentation.splash.SurveyScreen
+import com.example.willowhealth.presentation.survey.SurveyScreen
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -44,34 +52,47 @@ object AppRouter {
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun App() {
-
+    val snackbarHostState = remember { SnackbarHostState() }
     KoinAndroidContext {
 
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            Crossfade(targetState = AppRouter.currentScreen) { currentState ->
+            Box {
+                Crossfade(targetState = AppRouter.currentScreen, label = "") { currentState ->
 
-                when (currentState.value) {
-                    is Screen.LoginScreen -> {
-                        LoginScreen()
-                    }
+                    when (currentState.value) {
+                        is Screen.LoginScreen -> {
+                            LoginScreen(snackbarHostState)
+                        }
 
-                    is Screen.MainScreen -> {
-                        MainScreen()
-                    }
+                        is Screen.MainScreen -> {
+                            MainScreen()
+                        }
 
-                    is Screen.SurveyScreen -> {
-                        SurveyScreen()
-                    }
+                        is Screen.SurveyScreen -> {
+                            SurveyScreen()
+                        }
 
-                    else -> {
-                        LoginScreen()
+                        else -> {
+                            LoginScreen(snackbarHostState)
+                        }
                     }
                 }
+                SnackbarHost(
+                    hostState = snackbarHostState,
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(top = 30.dp),
+                    snackbar = { snackbarData ->
+                        Snackbar(
+                            snackbarData = snackbarData,
+                            backgroundColor = MaterialTheme.colors.primary,
+                            contentColor = MaterialTheme.colors.onPrimary,
+                        )
+                    })
             }
-
         }
     }
 }

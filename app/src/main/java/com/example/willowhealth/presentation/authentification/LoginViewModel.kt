@@ -1,21 +1,29 @@
 package com.example.willowhealth.presentation.authentification
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.willowhealth.data.datasource.FirebaseAuthDataSource
+import androidx.lifecycle.viewModelScope
+import com.example.willowhealth.model.LoginUiState
+import com.example.willowhealth.service.AuthenticationService
 import com.example.willowhealth.utils.isValidEmail
 import com.example.willowhealth.utils.isValidPassword
 import com.example.willowhealth.utils.isValidPhone
-import com.example.willowhealth.model.LoginUiState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(private val authenticationService: AuthenticationService) : ViewModel() {
+    var navigateToMainScreen = MutableStateFlow(false)
+        private set
+
+    var snackbarMessage = MutableStateFlow("")
+        private set
+
     var uiState = mutableStateOf(LoginUiState())
         private set
-    var message = mutableStateOf("")
-        private set // Сообщение об ошибке
     private val email
         get() = uiState.value.email
     private val phone
@@ -35,44 +43,43 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+    fun onSignInClick() {
+        viewModelScope.launch {
+            val response = authenticationService.signInUser(email, password)
+            if (response) {
+                navigateToMainScreen.value = true
+                Log.d("LoginViewModel", "[VW] true")
 
-    fun onSignInClick() { // Вход
-        message.value = ""
-        FirebaseAuthDataSource.signInWithEmailAndPassword(
-            uiState.value.email,
-            uiState.value.password
-        )
-            .addOnSuccessListener {
-                user.value = it.user
-
-
-            }.addOnFailureListener {
-                message.value = it.message ?: "Sign In error, check your input data!"
+            } else {
+                snackbarMessage.value = "Sign-in failed. Please try again."
+                Log.d(
+                    "LoginViewModel", "[VW] falsea nd snackbar message"
+                            + snackbarMessage.value
+                )
             }
-
-
+        }
     }
 
-    fun onSignUpClick() { // Регистрация
-        message.value = ""
-        FirebaseAuthDataSource.register(
-            uiState.value.email,
-            uiState.value.phone,
-            uiState.value.password
-        )
-        FirebaseAuthDataSource.signInWithEmailAndPassword(
-            uiState.value.email,
-            uiState.value.password
-        )
-            .addOnSuccessListener {
-                user.value = it.user
-
-            }.addOnFailureListener {
-                message.value = it.message ?: "Sign Up error, check your input data!"
-            }
-
+    fun clearSnackbarMessage() {
+        snackbarMessage.value = ""
     }
 
+    fun onSignUpClick() {
+        viewModelScope.launch {
+            val result =
+                authenticationService.signUpUser(email, password)
+            if (result) {
+                navigateToMainScreen.value = true
+                Log.d("LoginViewModel", "[VW] true")
+            } else {
+                snackbarMessage.value = "Sign Up error, check your input data!"
+                Log.d(
+                    "LoginViewModel", "[VW] falsea nd snackbar message"
+                            + snackbarMessage.value
+                )
+            }
+        }
+    }
 
     fun onEmailChange(newValue: String) {
         uiState.value = uiState.value.copy(email = newValue)
@@ -94,6 +101,10 @@ class LoginViewModel : ViewModel() {
         allValidationPassed.value = email.isValidEmail() &&
                 phone.isValidPhone() &&
                 password.isValidPassword()
+    }
+
+    fun resetNavigationTrigger() {
+        navigateToMainScreen.value = false
     }
 }
 

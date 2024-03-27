@@ -1,4 +1,4 @@
-package com.example.willowhealth.presentation.main
+package com.example.willowhealth.main
 
 import android.content.Context
 import android.content.SharedPreferences

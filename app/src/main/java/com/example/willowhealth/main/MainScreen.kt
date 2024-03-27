@@ -1,6 +1,5 @@
-package com.example.willowhealth.presentation.main
+package com.example.willowhealth.main
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
@@ -26,9 +25,7 @@ import com.example.willowhealth.presentation.ui.components.NavigationItems
 
 @Composable
 fun MainScreen() {
-
     val surveyNavController = rememberNavController()
-
     Scaffold(
         bottomBar = {
             BottomNavigation {
@@ -63,12 +60,15 @@ fun MainScreen() {
         Box(
             modifier = Modifier.padding(
                 8.dp,
-                paddingValues.calculateBottomPadding(),
                 8.dp,
-                8.dp
+                8.dp,
+                paddingValues.calculateBottomPadding()
             )
         ) {
-            NavHost(navController = surveyNavController, startDestination = INSIGHTS_SCREEN) { // TODO INSIGHTS_SCREEN
+            NavHost(
+                navController = surveyNavController,
+                startDestination = INSIGHTS_SCREEN
+            ) { // TODO INSIGHTS_SCREEN
                 composable(INSIGHTS_SCREEN) {
                     InsightsScreen()
                 }

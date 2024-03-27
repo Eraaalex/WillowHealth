@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.willowhealth.presentation.ui.theme.Grey500
-import com.example.willowhealth.presentation.ui.theme.Grey600
 import com.example.willowhealth.presentation.ui.theme.LightBlue
 import com.example.willowhealth.utils.toShortString
 import java.time.DayOfWeek
