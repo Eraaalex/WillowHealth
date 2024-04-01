@@ -1,11 +1,15 @@
 package com.example.willowhealth.presentation.settings
 
 import androidx.lifecycle.ViewModel
-import com.example.willowhealth.data.datasource.FirebaseAuthDataSource
+import com.example.willowhealth.service.AccountServiceImpl
 
-class SettingsViewModel : ViewModel() {
+class SettingsViewModel(private val authService : AccountServiceImpl) : ViewModel() {
 
     fun logOut() {
-        FirebaseAuthDataSource.logout()
+        authService.logout()
+    }
+
+    fun getUserName(): String {
+        return authService.getUser()?.email?.substringBefore('@') ?: "User"
     }
 }

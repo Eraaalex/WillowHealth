@@ -16,22 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WillowHealth"
         tools:targetApi="31">
-<!--        <meta-data-->
-<!--            android:name="com.samsung.android.health.permission.read"-->
-<!--            android:value="your_permission_key"/>-->
-
         <activity
             android:name=".main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <queries>-->
-<!--            <package android:name="com.sec.android.app.shealth" />-->
-<!--        </queries>-->
+
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.example.willowhealth.main
+package com.example.willowhealth.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -68,7 +68,7 @@ fun MainScreen() {
             NavHost(
                 navController = surveyNavController,
                 startDestination = INSIGHTS_SCREEN
-            ) { // TODO INSIGHTS_SCREEN
+            ) {
                 composable(INSIGHTS_SCREEN) {
                     InsightsScreen()
                 }

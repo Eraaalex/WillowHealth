@@ -1,13 +1,18 @@
 package com.example.willowhealth.presentation.ui.components
 
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -44,6 +49,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.willowhealth.app.AppRouter
+import com.example.willowhealth.app.Screen
 import com.example.willowhealth.model.Message
 import com.example.willowhealth.model.MessageType
 import com.example.willowhealth.presentation.ui.theme.WillowTheme
@@ -266,7 +273,7 @@ fun ChatBotMessage(modifier: Modifier = Modifier, message: Message) {
             text = message.text,
             modifier = Modifier
                 .padding(2.dp)
-                .background(MaterialTheme.colors.surface, RoundedCornerShape(5))
+                .background(MaterialTheme.colors.surface, RoundedCornerShape(5.dp))
                 .padding(horizontal = 8.dp, vertical = 4.dp),
             color = MaterialTheme.colors.onSurface,
         )
@@ -285,7 +292,7 @@ fun ChatMyMessage(modifier: Modifier = Modifier, message: Message) {
             text = message.text,
             modifier = Modifier
                 .padding(2.dp)
-                .background(MaterialTheme.colors.surface, RoundedCornerShape(5))
+                .background(MaterialTheme.colors.surface, RoundedCornerShape(5.dp))
                 .padding(horizontal = 8.dp, vertical = 4.dp),
             color = MaterialTheme.colors.onSurface,
         )
@@ -340,4 +347,42 @@ fun ChatInputFiled(
             disabledIndicatorColor = Color.Transparent
         )
     )
+}
+
+
+
+@Preview
+@Composable
+fun ButtonsPreview() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp),
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+        ButtonComponent(
+            text = "Sign In",
+            onButtonClicked = {
+                {}
+
+            },
+            isEnabled = true,
+            modifier = Modifier.weight(1f)
+        )
+
+        Spacer(modifier = Modifier.width(16.dp))
+
+        ButtonComponent(
+            text = "Sign Up",
+
+            onButtonClicked = {
+                {}
+                Log.d("MyApp", "Click on Sign Up")
+                AppRouter.navigateTo(Screen.MainScreen)
+            },
+            isEnabled = true,
+            modifier = Modifier.weight(1f)
+        )
+
+    }
 }

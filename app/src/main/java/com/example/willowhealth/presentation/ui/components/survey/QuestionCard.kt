@@ -56,16 +56,16 @@ fun QuestionSleepCard(
                 color = MaterialTheme.colors.onSecondary
             )
             TimeInputField(timeStateForEnd)
-            Text(
-                text = "Duration is ${
-                    timeStateForEnd.hour - timeStateForStart.hour +
-                            if (timeStateForEnd.hour < timeStateForStart.hour)
-                                24
-                            else
-                                0
-                } : " +
-                        "${timeStateForEnd.minute - timeStateForStart.minute}"
-            )
+//            Text(
+//                text = "Duration is ${
+//                    timeStateForEnd.hour - timeStateForStart.hour +
+//                            if (timeStateForEnd.hour < timeStateForStart.hour)
+//                                24
+//                            else
+//                                0
+//                } : " +
+//                        "${timeStateForEnd.minute - timeStateForStart.minute}"
+//            )
         }
     }
 }

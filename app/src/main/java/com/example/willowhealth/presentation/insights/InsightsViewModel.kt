@@ -5,10 +5,10 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.willowhealth.data.datasource.FirebaseRealtimeSource
 import com.example.willowhealth.main.TAG
 import com.example.willowhealth.model.HealthMetric
 import com.example.willowhealth.model.MissionData
+import com.example.willowhealth.repository.UserRepository
 import com.example.willowhealth.service.HealthDataManager
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
@@ -16,10 +16,12 @@ import java.util.Date
 
 data class TimeDuration(val hours: Int = 0, val mins: Int = 0)
 typealias MetricWithValue = HashMap<String, Int>
-typealias StepsValue = HashMap<String, HashMap<String, MetricWithValue>>
-typealias SleepValue = HashMap<String, HashMap<String, HashMap<String, TimeDuration>>>
+typealias MetricValue = HashMap<String, HashMap<String, MetricWithValue>>
 
-class InsightsViewModel(private val healthDataManager: HealthDataManager) : ViewModel() {
+class InsightsViewModel(
+    private val healthDataManager: HealthDataManager,
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     private var _sleepDuration = mutableStateOf<Map<DayOfWeek, Int>>(fillMapOfWeek())
     val sleepDuration: State<Map<DayOfWeek, Int>> = _sleepDuration
@@ -38,7 +40,7 @@ class InsightsViewModel(private val healthDataManager: HealthDataManager) : View
         fetchWeekSleepData()
         fetchDaySleepData()
         fetchData(HealthMetric.STEPS)
-        fetchMissionData(1)
+        getMissionData(1)
     }
 
     private fun fillMapOfWeek(): Map<DayOfWeek, Int> {
@@ -54,11 +56,11 @@ class InsightsViewModel(private val healthDataManager: HealthDataManager) : View
 
     }
 
-    fun fetchMissionData(week: Int = 1) {
+    fun getMissionData(week: Int = 1) {
         viewModelScope.launch {
             try {
                 Log.e(TAG, "[fetchMissionData] $_missions")
-                _missions.value = FirebaseRealtimeSource.fetchMissionsForWeek(week)
+                _missions.value = userRepository.getMissionData(week)
                 Log.e(TAG, "[fetchMissionData] $_missions")
             } catch (e: Exception) {
                 Log.e(TAG, "Error fetching week missions data", e)
@@ -68,11 +70,11 @@ class InsightsViewModel(private val healthDataManager: HealthDataManager) : View
 
     }
 
-    fun fetchWeekSleepData(days: Long = 7) {
+    private fun fetchWeekSleepData(days: Int = 7) {
         viewModelScope.launch {
             try {
                 var weekSurvey =
-                    FirebaseRealtimeSource.getSurveyDataUntilCurrent(days)
+                    userRepository.getSurveyDataOrderByDayOfWeek(days)
                 weekSurvey = alignSurveyMap(weekSurvey)
                 Log.e(TAG, "weekSurvey: $weekSurvey")
                 _sleepDuration.value = weekSurvey
@@ -82,12 +84,16 @@ class InsightsViewModel(private val healthDataManager: HealthDataManager) : View
         }
     }
 
-    fun fetchDaySleepData(days: Long = 2) {
+    fun fetchDaySleepData(days: Int = 2) {
         viewModelScope.launch {
             try {
-                val surveys = FirebaseRealtimeSource.getSurveyDataUntilCurrent(days)
+                val surveys = userRepository.getSurveyData(days)
                 Log.d("MyApp", "surveys: $surveys")
-                _lastSurvey.value = surveys.values.lastOrNull() ?: 0
+                val last = surveys.lastOrNull()
+                _lastSurvey.value = 0
+                last?.let{
+                    _lastSurvey.value = (24 * 3600 - it.startSleepTime + it.endSleepTime) // TODO
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "Error fetching sleep data", e)
             }
@@ -106,7 +112,7 @@ class InsightsViewModel(private val healthDataManager: HealthDataManager) : View
 
     fun fetchData(
         metric: HealthMetric,
-        startDate: Date = Date(Date().time - 1000 * 60 * 60 * 24),
+        startDate: Date = Date(Date().time - 1000 * 3600 * 24),
         endDate: Date = Date()
     ) {
         viewModelScope.launch {
@@ -120,11 +126,12 @@ class InsightsViewModel(private val healthDataManager: HealthDataManager) : View
     }
 
     fun onMissionCheckedChange(number: Int, newIsChecked: Boolean) {
+
         viewModelScope.launch {
             try {
                 val mission = missions.value[number]
                 mission.isChecked = newIsChecked
-                FirebaseRealtimeSource.updateMission(mission)
+                userRepository.fetchMissionsData(1, number)
 
             } catch (e: Exception) {
                 Log.e(TAG, "Error with updating mission occurred: $e")

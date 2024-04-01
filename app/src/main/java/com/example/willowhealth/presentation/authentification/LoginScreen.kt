@@ -49,7 +49,7 @@ fun LoginScreen(snackbarHostState: SnackbarHostState, viewModel: LoginViewModel 
     }
     LaunchedEffect(navigateToMain) {
         if (navigateToMain) {
-            AppRouter.navigateTo(Screen.MainScreen)
+            AppRouter.navigateTo(Screen.SplashScreen)
         }
     }
 
@@ -113,43 +113,6 @@ fun LoginScreen(snackbarHostState: SnackbarHostState, viewModel: LoginViewModel 
 
 }
 
-
-@Preview
-@Composable
-fun ButtonsPreview() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp),
-        horizontalArrangement = Arrangement.SpaceAround
-    ) {
-        ButtonComponent(
-            text = "Sign In",
-            onButtonClicked = {
-                {}
-                Log.d("MyApp", "Click on Sign In")
-                AppRouter.navigateTo(Screen.MainScreen)
-            },
-            isEnabled = true,
-            modifier = Modifier.weight(1f)
-        )
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        ButtonComponent(
-            text = "Sign Up",
-
-            onButtonClicked = {
-                {}
-                Log.d("MyApp", "Click on Sign Up")
-                AppRouter.navigateTo(Screen.MainScreen)
-            },
-            isEnabled = true,
-            modifier = Modifier.weight(1f)
-        )
-
-    }
-}
 
 
 

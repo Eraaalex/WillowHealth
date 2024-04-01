@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.willowhealth.model.LoginUiState
-import com.example.willowhealth.service.AuthenticationService
+import com.example.willowhealth.service.AccountServiceImpl
 import com.example.willowhealth.utils.isValidEmail
 import com.example.willowhealth.utils.isValidPassword
 import com.example.willowhealth.utils.isValidPhone
@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val authenticationService: AuthenticationService) : ViewModel() {
+class LoginViewModel(private val accountService: AccountServiceImpl) : ViewModel() {
     var navigateToMainScreen = MutableStateFlow(false)
         private set
 
@@ -45,7 +45,7 @@ class LoginViewModel(private val authenticationService: AuthenticationService) :
 
     fun onSignInClick() {
         viewModelScope.launch {
-            val response = authenticationService.signInUser(email, password)
+            val response = accountService.authenticate(email, password)
             if (response) {
                 navigateToMainScreen.value = true
                 Log.d("LoginViewModel", "[VW] true")
@@ -67,7 +67,7 @@ class LoginViewModel(private val authenticationService: AuthenticationService) :
     fun onSignUpClick() {
         viewModelScope.launch {
             val result =
-                authenticationService.signUpUser(email, password)
+                accountService.register(email, password)
             if (result) {
                 navigateToMainScreen.value = true
                 Log.d("LoginViewModel", "[VW] true")

@@ -1,7 +1,6 @@
 package com.example.willowhealth.service
 
 import android.content.Context
-import android.util.Log
 import com.example.willowhealth.repository.AccountRepository
 import com.example.willowhealth.utils.getFormattingTime
 import com.google.android.gms.fitness.Fitness
@@ -13,13 +12,18 @@ import java.util.Date
 import java.util.concurrent.TimeUnit
 
 typealias MetricWithValue = HashMap<String, Int>
-typealias DateTimeWithMetric = HashMap<String, HashMap<String, MetricWithValue>>
+typealias DatedHealthMetric = HashMap<String, HashMap<String, MetricWithValue>>
 
 interface HealthReader {
     fun getSteps(
         startDate: Date,
         endDate: Date,
-        callback: (DateTimeWithMetric) -> Unit
+        callback: (DatedHealthMetric) -> Unit
+    )
+    fun getCalories(
+        startDate: Date,
+        endDate: Date,
+        callback: (DatedHealthMetric) -> Unit
     )
 }
 
@@ -32,6 +36,8 @@ class GoogleFitReader(
             .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
             .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
             .addDataType(DataType.TYPE_SLEEP_SEGMENT, FitnessOptions.ACCESS_READ)
+            .addDataType(DataType.TYPE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
+            .addDataType( DataType.AGGREGATE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
             .build()
 
     }
@@ -39,10 +45,12 @@ class GoogleFitReader(
     override fun getSteps(
         startDate: Date,
         endDate: Date,
-        callback: (DateTimeWithMetric) -> Unit
+        callback: (DatedHealthMetric) -> Unit
     ) {
         val readRequest = DataReadRequest.Builder()
-            .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
+            .aggregate(
+                DataType.TYPE_STEP_COUNT_DELTA,
+                DataType.AGGREGATE_STEP_COUNT_DELTA)
             .setTimeRange(startDate.time, endDate.time, TimeUnit.MILLISECONDS)
             .bucketByTime(1, TimeUnit.DAYS)
             .build()
@@ -66,7 +74,6 @@ class GoogleFitReader(
                 )
             }
             .addOnFailureListener { e ->
-                Log.d("WILLOW", "OnFailure()", e)
                 callback(
                     hashMapOf(
                         endDate.date.toString() to hashMapOf(
@@ -78,5 +85,48 @@ class GoogleFitReader(
                 )
             }
 
+    }
+
+    override fun getCalories(
+        startDate: Date,
+        endDate: Date,
+        callback: (DatedHealthMetric) -> Unit
+    ) {
+        val readRequest = DataReadRequest.Builder()
+            // Use the calorie data types for aggregation
+            .aggregate(DataType.TYPE_CALORIES_EXPENDED, DataType.AGGREGATE_CALORIES_EXPENDED)
+            .setTimeRange(startDate.time, endDate.time, TimeUnit.MILLISECONDS)
+            .bucketByTime(1, TimeUnit.DAYS)
+            .build()
+
+        Fitness.getHistoryClient(context, accountRepository.get())
+            .readData(readRequest)
+            .addOnSuccessListener { response ->
+                val totalCalories = response.buckets
+                    .asSequence()
+                    .flatMap { it.dataSets }
+                    .flatMap { it.dataPoints }
+                    .sumOf { it.getValue(Field.FIELD_CALORIES).asInt() }
+                callback(
+                    hashMapOf(
+                        endDate.getFormattingTime("yyyy-MM-dd") to hashMapOf(
+                            endDate.getFormattingTime("HH:mm") to hashMapOf(
+                                "calories" to totalCalories
+                            )
+                        )
+                    )
+                )
+            }
+            .addOnFailureListener { e ->
+                callback(
+                    hashMapOf(
+                        endDate.date.toString() to hashMapOf(
+                            endDate.time.toString() to hashMapOf(
+                                "calories" to 0
+                            )
+                        )
+                    )
+                )
+            }
     }
 }

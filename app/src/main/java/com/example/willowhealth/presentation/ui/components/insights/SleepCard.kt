@@ -36,8 +36,6 @@ fun SleepCard(hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
         modifier = Modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(15.dp),
-        border = BorderStroke(0.dp, Color.Black),
-        elevation = 2.dp,
         backgroundColor = MaterialTheme.colors.surface,
     ) {
         Column(modifier = Modifier.padding(12.dp, 8.dp)) {

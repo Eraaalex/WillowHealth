@@ -21,13 +21,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.willowhealth.app.AppRouter
 import com.example.willowhealth.app.Screen
-import com.example.willowhealth.data.datasource.FirebaseAuthDataSource
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
+fun SettingsScreen( viewModel: SettingsViewModel = koinViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -40,7 +39,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
         )
         Spacer(modifier = Modifier.padding(20.dp))
         Text(
-            text = FirebaseAuthDataSource.getName(),
+            text = viewModel.getUserName(),
             style = MaterialTheme.typography.h6, color = MaterialTheme.colors.onSecondary
         )
         Spacer(modifier = Modifier.padding(20.dp))
@@ -63,7 +62,6 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
 
 @Composable
 fun SettingsButton(text: String, onClick: () -> Unit) {
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -90,5 +88,4 @@ fun SettingsButton(text: String, onClick: () -> Unit) {
 @Composable
 fun SettingsButton() {
     SettingsButton("Log Out", {})
-
 }

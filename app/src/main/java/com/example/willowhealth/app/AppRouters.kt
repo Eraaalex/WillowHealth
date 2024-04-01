@@ -1,5 +1,6 @@
 package com.example.willowhealth.app
 
+import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,8 +17,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.willowhealth.main.MainScreen
+import androidx.navigation.compose.rememberNavController
+import com.example.willowhealth.main.TAG
+import com.example.willowhealth.presentation.MainScreen
 import com.example.willowhealth.presentation.authentification.LoginScreen
+import com.example.willowhealth.presentation.splash.SplashScreen
 import com.example.willowhealth.presentation.survey.SurveyScreen
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -34,6 +38,7 @@ sealed class Screen {
     object LoginScreen : Screen()
     object SurveyScreen : Screen()
     object MainScreen : Screen()
+    object SplashScreen : Screen()
 
 }
 
@@ -53,6 +58,13 @@ object AppRouter {
 @Composable
 fun App() {
     val snackbarHostState = remember { SnackbarHostState() }
+//    val navController = rememberNavController()
+//    NavHost(navController = navController, startDestination = "splashScreen") {
+//        composable("splashScreen") { SplashScreen(navController) }
+//        composable("loginScreen") { LoginScreen(navController) }
+//        composable("mainScreen") { MainScreen(navController) }
+//        composable("surveyScreen") { SurveyScreen(navController) }
+//    }
     KoinAndroidContext {
 
         Surface(
@@ -73,6 +85,10 @@ fun App() {
 
                         is Screen.SurveyScreen -> {
                             SurveyScreen()
+                        }
+                        is Screen.SplashScreen -> {
+                            Log.d(TAG, "AppRouter.navigateTo(Screen.SplashScreen)")
+                            SplashScreen()
                         }
 
                         else -> {

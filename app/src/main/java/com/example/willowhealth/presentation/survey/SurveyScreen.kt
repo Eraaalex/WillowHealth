@@ -1,6 +1,5 @@
 package com.example.willowhealth.presentation.survey
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -35,14 +34,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.willowhealth.app.AppRouter
 import com.example.willowhealth.app.Screen
-import com.example.willowhealth.main.TAG
 import com.example.willowhealth.presentation.ui.components.insights.MissionCard
 import com.example.willowhealth.presentation.ui.components.survey.QuestionSleepCard
 import com.example.willowhealth.utils.toLocalTime
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SurveyScreen(viewModel: SurveyViewModel = viewModel()) {
+fun SurveyScreen(viewModel: SurveyViewModel = koinViewModel()) {
 
     val uiState by viewModel.uiState
     val missions by viewModel.missions
@@ -60,7 +59,7 @@ fun SurveyScreen(viewModel: SurveyViewModel = viewModel()) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         QuestionSleepCard(
-            question = "@string/question_sleep_time",
+            question = "Sleep time",
             timeStateForStart = timeStateForStart,
             timeStateForEnd = timeStateForEnd,
         )
@@ -76,13 +75,10 @@ fun SurveyScreen(viewModel: SurveyViewModel = viewModel()) {
         )
 
         if (missions.isNotEmpty()) {
-            MissionCard(value = missions, viewModel::updateMissionTemporaryCheckedState)
+            MissionCard(missions = missions, viewModel::updateMissionTemporaryCheckedState)
         }
-
-
         Button(
             onClick = {
-                Log.d(TAG, "onSaveClick: in Button")
                 viewModel.onSaveClick(
                     timeStateForStart.toLocalTime(),
                     timeStateForEnd.toLocalTime()
@@ -112,7 +108,7 @@ fun QuestionEstimationSleep(question: String, state: Int, onSleepQualitySelected
         backgroundColor = MaterialTheme.colors.surface
     ) {
         Column(
-            modifier = Modifier.padding(14.dp, 8.dp),
+            modifier = Modifier.padding(vertical = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -138,12 +134,13 @@ fun SleepQualityEstimationRow(
 ) {
     val sleepQualityOptions = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
     val (selectedQuality, setSelectedQuality) = remember { mutableStateOf(initialQuality) } // Default value is 5
+
+
     Column(
         modifier = Modifier
-            .padding(8.dp)
             .fillMaxWidth()
     ) {
-        Row {
+        Row() {
             sleepQualityOptions.forEach { quality ->
                 RadioButton(
                     selected = quality == selectedQuality,
@@ -152,7 +149,7 @@ fun SleepQualityEstimationRow(
                         setSelectedQuality(quality)
                     },
                     colors = RadioButtonDefaults.colors(
-                        selectedColor = MaterialTheme.colors.primary,
+                        selectedColor = MaterialTheme.colors.onSurface,
                         unselectedColor = MaterialTheme.colors.secondary,
                         disabledColor = MaterialTheme.colors.onSurface
                     ),
@@ -162,13 +159,13 @@ fun SleepQualityEstimationRow(
                 )
             }
         }
-        Row {
+        Row(modifier = Modifier.padding(start = 10.dp)) {
             sleepQualityOptions.forEach { quality ->
                 Text(
                     text = quality.toString(),
                     modifier = Modifier
-                        .padding(horizontal = 12.dp)
-                        .width(10.dp)
+                        .width(34.dp)
+                        .align(Alignment.CenterVertically),
                 )
             }
         }
@@ -182,40 +179,84 @@ fun QuestionSleepDisturbances(
     onDisturbancesSelected: (List<String>) -> Unit,
     selectedDisturbances: MutableState<List<String>>
 ) {
-    Column(
-        modifier = Modifier.padding(16.dp)
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        shape = RoundedCornerShape(5),
+        backgroundColor = MaterialTheme.colors.surface
     ) {
-        Text(
-            text = "Sleep Disturbances",
-            style = MaterialTheme.typography.h6,
-            color = Color.Black
-        )
-        disturbances.forEach { disturbance ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.clickable {
-                    if (selectedDisturbances.value.contains(disturbance)) {
-                        selectedDisturbances.value =
-                            selectedDisturbances.value.filter { it != disturbance }
-                    } else {
-                        selectedDisturbances.value = selectedDisturbances.value + disturbance
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(
+                text = "Sleep Disturbances",
+                style = MaterialTheme.typography.h6,
+                color = Color.Black
+            )
+//            disturbances.forEach { disturbance ->
+//                Row(
+//                    verticalAlignment = Alignment.CenterVertically,
+//                    modifier = Modifier.clickable {
+//                        if (selectedDisturbances.value.contains(disturbance)) {
+//                            selectedDisturbances.value =
+//                                selectedDisturbances.value.filter { it != disturbance }
+//                        } else {
+//                            selectedDisturbances.value = selectedDisturbances.value + disturbance
+//                        }
+//                        onDisturbancesSelected(selectedDisturbances.value)
+//                    }
+//                ) {
+//                    Checkbox(
+//                        checked = selectedDisturbances.value.contains(disturbance),
+//                        onCheckedChange = {
+//
+//                        }
+//                    )
+//                    Text(
+//                        text = disturbance,
+//                        style = MaterialTheme.typography.body1,
+//                        color = Color.Gray,
+//                        modifier = Modifier.padding(start = 16.dp)
+//                    )
+//                }
+//            }
+            disturbances.forEach { disturbance ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.clickable {
+                        val currentSelection = selectedDisturbances.value
+                        if (currentSelection.contains(disturbance)) {
+                            selectedDisturbances.value = currentSelection.filter { it != disturbance }
+                        } else {
+                            selectedDisturbances.value = currentSelection + disturbance
+                        }
+                        onDisturbancesSelected(selectedDisturbances.value)
                     }
-                    onDisturbancesSelected(selectedDisturbances.value)
-                }
-            ) {
-                Checkbox(
-                    checked = selectedDisturbances.value.contains(disturbance),
-                    onCheckedChange = {
+                ) {
+                    Checkbox(
+                        checked = selectedDisturbances.value.contains(disturbance),
+                        onCheckedChange = { _ ->
 
-                    }
-                )
-                Text(
-                    text = disturbance,
-                    style = MaterialTheme.typography.body1,
-                    color = Color.Gray,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
+                            val currentSelection = selectedDisturbances.value
+                            if (currentSelection.contains(disturbance)) {
+                                selectedDisturbances.value = currentSelection.filter { it != disturbance }
+                            } else {
+                                selectedDisturbances.value = currentSelection + disturbance
+                            }
+                            onDisturbancesSelected(selectedDisturbances.value)
+                        }
+                    )
+                    Text(
+                        text = disturbance,
+                        style = MaterialTheme.typography.body1,
+                        color = Color.Gray,
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
+                }
             }
+
         }
     }
 }
+

@@ -1,6 +1,7 @@
 package com.example.willowhealth.service
 
 import com.example.willowhealth.model.HealthMetric
+import com.example.willowhealth.presentation.insights.MetricWithValue
 import java.util.Date
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -22,18 +23,13 @@ open class HealthDataManagerGoogleImpl(
         metric: HealthMetric,
         startDate: Date,
         endDate: Date
-    ): HashMap<String, HashMap<String, HashMap<String, Int>>> {
+    ): HashMap<String, HashMap<String, MetricWithValue>> {
         return when (metric) {
             HealthMetric.STEPS -> getStepsData(startDate, endDate)
-            HealthMetric.CALORIES -> getCaloriesData()
-            HealthMetric.SLEEP -> getSleepData()
+            HealthMetric.CALORIES -> getCaloriesData(startDate, endDate)
+            else -> hashMapOf()
         }
     }
-
-    private fun getSleepData(): HashMap<String, HashMap<String, HashMap<String, Int>>> {
-        return hashMapOf()
-    }
-
 
     private suspend fun getStepsData(
         startDate: Date,
@@ -54,8 +50,20 @@ open class HealthDataManagerGoogleImpl(
         return resultData
     }
 
-    private fun getCaloriesData(): HashMap<String, HashMap<String, HashMap<String, Int>>> {
+    private suspend fun getCaloriesData(startDate: Date, endDate: Date): HashMap<String, HashMap<String, HashMap<String, Int>>> {
 
-        return TODO("Provide the return value")
+        val resultData: HashMap<String, HashMap<String, HashMap<String, Int>>> = hashMapOf()
+
+        if (permissionService.checkPermission()) {
+            return suspendCoroutine { continuation ->
+                googleFitReader.getSteps(startDate, endDate) { calories ->
+                    continuation.resume(calories)
+                }
+            }
+        } else {
+            permissionService.requestPermission()
+        }
+
+        return resultData
     }
 }

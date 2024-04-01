@@ -4,17 +4,17 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.willowhealth.data.datasource.FirebaseRealtimeSource
 import com.example.willowhealth.main.SharedPreferencesManager
 import com.example.willowhealth.main.TAG
 import com.example.willowhealth.model.MissionData
 import com.example.willowhealth.model.SurveyData
+import com.example.willowhealth.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalTime
 
-class SurveyViewModel : ViewModel() {
+class SurveyViewModel(private val userRepository: UserRepository) : ViewModel() {
     private val mutableStateFlow = MutableStateFlow(true)
     val isLoading = mutableStateFlow.asStateFlow()
 
@@ -33,13 +33,11 @@ class SurveyViewModel : ViewModel() {
     fun fetchMissionData(week: Int = 1) {
         viewModelScope.launch {
             try {
-                missions.value = FirebaseRealtimeSource.fetchMissionsForWeek(week)
+                missions.value = userRepository.getMissionData(week)
             } catch (e: Exception) {
                 Log.e(TAG, "Error fetching week missions data", e)
             }
         }
-
-
     }
 
     fun updateMissionTemporaryCheckedState(missionNumber: Int, isChecked: Boolean) {
@@ -59,7 +57,8 @@ class SurveyViewModel : ViewModel() {
             startSleepTime = timeStateForStart.toSecondOfDay(),
             endSleepTime = timeStateForEnd.toSecondOfDay(),
         )
-        FirebaseRealtimeSource.saveSurveyData(uiState.value)
+        userRepository.saveSurveyData(uiState.value)
+//        FirebaseRealtimeSource.saveSurveyData(uiState.value)
         SharedPreferencesManager.saveCurrentDate()
         finish()
     }

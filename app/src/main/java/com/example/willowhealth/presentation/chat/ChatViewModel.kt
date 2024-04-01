@@ -5,15 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.willowhealth.data.datasource.FirebaseAuthDataSource
-import com.example.willowhealth.data.datasource.FirebaseRealtimeSource.getSurveyDataString
-import com.example.willowhealth.main.TAG
 import com.example.willowhealth.model.Message
 import com.example.willowhealth.model.MessageType
+import com.example.willowhealth.repository.UserRepository
 import com.example.willowhealth.service.GPTService
+import com.example.willowhealth.utils.toGPTRequestForm
 import kotlinx.coroutines.launch
 
-class ChatViewModel : ViewModel() {
+class ChatViewModel(private val userRepository: UserRepository) : ViewModel() {
     var message = mutableStateOf(TextFieldValue())
         private set
     var respond = mutableStateOf("")
@@ -24,19 +23,24 @@ class ChatViewModel : ViewModel() {
 
 
     private fun sendMessage(text: String, sendBy: MessageType = MessageType.SENT_BY_ME) {
+       Log.d("Chat", "sendMessage")
         val currentMessages = chatMessages.value.toMutableList()
         currentMessages.add(Message(text, sendBy))
-
+        Log.d("Chat", "add sendMessage")
         viewModelScope.launch {
-            val intro = getIntroductionRequest()
-            respond.value = GPTService.getGPTResponse(intro + text)
-            currentMessages.add(Message(respond.value, MessageType.SENT_BY_BOT))
+            if (sendBy == MessageType.SENT_BY_ME) {
+                val intro = getIntroductionRequest()
+                respond.value = GPTService.getGPTResponse(intro + text)
+                currentMessages.add(Message(respond.value, MessageType.SENT_BY_BOT))
+            }
+            Log.d("Chat", "update sendMessage")
             chatMessages.value = currentMessages
+            Log.d("Chat", "nice ")
         }
+
     }
 
     private suspend fun getIntroductionRequest(
-        userId: String = FirebaseAuthDataSource.getCurrentUser()?.uid ?: ""
     ): String {
         var intro: String =
             "I am writing to seek your expertise in analyzing the sleep quality data of the respondent mentioned above." +
@@ -50,10 +54,9 @@ class ChatViewModel : ViewModel() {
                     "Provide personalized advice or recommendations to help the respondent improve their sleep quality and overall well-being." +
                     "Survey Data: \n"
 
-
-        intro += getSurveyDataString()
-
-        Log.d(TAG, "[INTRO]" + intro)
+        intro += userRepository.getSurveyData(7).forEach() {
+            it.toGPTRequestForm()
+        }
         return intro
     }
 
@@ -71,6 +74,5 @@ class ChatViewModel : ViewModel() {
 
     fun setInitialText(intro: String) {
         sendMessage(intro, MessageType.SENT_BY_BOT)
-
     }
 }

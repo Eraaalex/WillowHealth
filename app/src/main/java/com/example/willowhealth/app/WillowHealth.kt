@@ -2,6 +2,7 @@ package com.example.willowhealth.app
 
 import android.app.Application
 import com.example.willowhealth.di.appModule
+import com.example.willowhealth.di.dataModule
 import com.example.willowhealth.di.repositoryModule
 import com.example.willowhealth.di.serviceModule
 import com.example.willowhealth.main.SharedPreferencesManager
@@ -22,7 +23,7 @@ class WillowHealth : Application() {
         koinApp = startKoin {
             androidLogger(Level.ERROR)
             androidContext(this@WillowHealth)
-            modules(listOf(appModule, serviceModule, repositoryModule))
+            modules(listOf(appModule, serviceModule, repositoryModule, dataModule))
         }
         FirebaseApp.initializeApp(this)
         SharedPreferencesManager.init(this)
