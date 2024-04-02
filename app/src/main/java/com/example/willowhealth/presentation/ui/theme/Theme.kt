@@ -17,6 +17,8 @@ private val DarkColorPalette = darkColors(
     onSurface = Color.White,
     onSecondary = Grey700,
     primaryVariant = Grey600,
+    error = Color.Red,
+    secondaryVariant = Grey1100
 )
 
 private val LightColorPalette = lightColors(
@@ -28,7 +30,8 @@ private val LightColorPalette = lightColors(
     onBackground = Color.Black,
     onSurface = Color.Black, // ПЕВРОСТЕПЕННЫЙ ЦВЕТ КАРТЫ
     onSecondary = Grey800, // ВТОРОСТЕПЕННЫЙ
-    primaryVariant = Grey600
+    primaryVariant = Grey600,
+    secondaryVariant = Color.White
 )
 
 @Composable

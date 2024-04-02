@@ -41,8 +41,8 @@ class UserRepositoryImpl(
 
     private var _surveys: MutableList<SurveyData>? = null
     private var _missions: MutableList<MissionData>? = null
-    private var _steps: MutableList<MissionData>? = null
-
+    private var _steps: Int? = null
+    private var _calories: Int? = null
     override suspend fun getMissionData(week: Int): List<MissionData> {
         _missions?.let {
             return it
@@ -117,14 +117,16 @@ class UserRepositoryImpl(
         startDate: Date,
         endDate: Date
     ): Int {
-
         val value = (healthDataManager.getData(
             metric,
             startDate,
             endDate
         )).values.first().values.first().values.first()
-
+        if (metric == HealthMetric.STEPS) {
+            _steps = value
+        } else {
+            _calories = value
+        }
         return value
-
     }
 }

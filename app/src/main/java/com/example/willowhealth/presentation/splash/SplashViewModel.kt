@@ -16,16 +16,6 @@ class SplashViewModel(private val userRepository: UserRepository,
         userRepository.getMissionData(1)
         userRepository.getSurveyData(7)
         userRepository.fetchHealthData(HealthMetric.STEPS, Date(Date().time - 1000 * 3600 * 24), Date())
-//        healthDataRepository.fetchHealthData(
-//            HealthMetric.STEPS,
-//            startDate = Date(Date().time - 1000 * 3600 * 24),
-//            endDate = Date()
-//        )
-//        healthDataRepository.fetchHealthData(
-//            HealthMetric.CALORIES,
-//            startDate = Date(Date().time - 1000 * 3600 * 24),
-//            endDate = Date()
-//        )
-//        dataLoading.value = false
+        userRepository.fetchHealthData(HealthMetric.CALORIES, Date(Date().time - 1000 * 3600 * 24), Date())
     }
 }

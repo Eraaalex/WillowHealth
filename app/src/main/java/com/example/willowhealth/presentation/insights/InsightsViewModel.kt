@@ -33,6 +33,10 @@ class InsightsViewModel(
         mutableStateOf<Int>(0)
     val steps: State<Int> = _steps
 
+    private var _calories =
+        mutableStateOf<Int>(0)
+    val calories: State<Int> = _calories
+
     private var _missions = mutableStateOf<List<MissionData>>(listOf())
     val missions: State<List<MissionData>> = _missions
 
@@ -91,7 +95,7 @@ class InsightsViewModel(
                 Log.d("MyApp", "surveys: $surveys")
                 val last = surveys.lastOrNull()
                 _lastSurvey.value = 0
-                last?.let{
+                last?.let {
                     _lastSurvey.value = (24 * 3600 - it.startSleepTime + it.endSleepTime) // TODO
                 }
             } catch (e: Exception) {
@@ -116,11 +120,19 @@ class InsightsViewModel(
         endDate: Date = Date()
     ) {
         viewModelScope.launch {
-            _steps.value = (healthDataManager.getData(
-                metric,
-                startDate,
-                endDate
-            )).values.first().values.first().values.first()
+            if (metric == HealthMetric.STEPS) {
+                _steps.value = (userRepository.fetchHealthData(
+                    metric,
+                    startDate,
+                    endDate
+                ))
+            } else {
+                _calories.value = (userRepository.fetchHealthData(
+                    metric,
+                    startDate,
+                    endDate
+                ))
+            }
             Log.d("MyApp", "steps: ${_steps.value}")
         }
     }

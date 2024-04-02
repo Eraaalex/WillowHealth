@@ -21,5 +21,15 @@
         User request (can be empty): %s
         Survey Data:
     </string>
+    <string name="sleep_title">Sleep</string>
+    <string name="steps_title">Steps</string>
+    <string name="calories_title">Calories</string>
+    <string name="sleep_duration">Sleep</string>
+    <string name="calories">Calories</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
 
 </resources>

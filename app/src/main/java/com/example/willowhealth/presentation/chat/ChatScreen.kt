@@ -27,9 +27,6 @@ import org.koin.androidx.compose.koinViewModel
 @Preview
 @Composable
 fun ChatScreen(viewModel: ChatViewModel = koinViewModel()) {
-Log.d("Chat", "ChatScreen start")
-    val message by remember { viewModel.message }
-    val respond by viewModel.respond
 
     if (viewModel.chatMessages.value.isEmpty())
         viewModel.setInitialText(getInitialBotMessage())

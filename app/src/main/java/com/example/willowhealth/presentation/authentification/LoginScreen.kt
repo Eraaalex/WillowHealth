@@ -20,9 +20,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.willowhealth.R
 import com.example.willowhealth.app.AppRouter
 import com.example.willowhealth.app.Screen
 import com.example.willowhealth.presentation.ui.components.ButtonComponent
@@ -64,17 +66,17 @@ fun LoginScreen(snackbarHostState: SnackbarHostState, viewModel: LoginViewModel 
 
         OutlinedTextFieldLogIn(
             text = uiState.email,
-            label = "Email",
+            label = stringResource(R.string.email),
             onTextValueChanged = viewModel::onEmailChange
         )
         OutlinedTextFieldLogIn(
             text = uiState.phone,
-            label = "Phone",
+            label = stringResource(R.string.phone),
             onTextValueChanged = viewModel::onPhoneChange
         )
         OutlinedTextFieldLogIn(
             text = uiState.password,
-            label = "Password",
+            label = stringResource(R.string.password),
             onTextValueChanged = viewModel::onPasswordChange,
             visual = PasswordVisualTransformation()
         )
@@ -89,7 +91,7 @@ fun LoginScreen(snackbarHostState: SnackbarHostState, viewModel: LoginViewModel 
             horizontalArrangement = Arrangement.Center
         ) {
             ButtonComponent(
-                text = "Sign In",
+                text = stringResource(R.string.sign_in),
                 onButtonClicked = {
                     viewModel.onSignInClick()
                 },
@@ -100,7 +102,7 @@ fun LoginScreen(snackbarHostState: SnackbarHostState, viewModel: LoginViewModel 
             Spacer(modifier = Modifier.width(16.dp))
 
             ButtonComponent(
-                text = "Sign Up",
+                text = stringResource(R.string.sign_up),
                 onButtonClicked = {
                     viewModel.onSignUpClick()
                 },

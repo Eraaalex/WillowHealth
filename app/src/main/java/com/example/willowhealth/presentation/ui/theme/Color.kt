@@ -11,10 +11,12 @@ val Grey700 = Color(0xFF858587) // ДЛЯ НАПИСАНИЯ ДОП ИИНФОР
 val Grey800 = Color(0xFF4c5058) // Дополнительный фоновый
 val Grey900 = Color(0xFF333336) // BUTTON COLOR
 val Grey1000 = Color(0xFF1c1c1e) // ЦВЕТ КАРТОЧКИ ТЕМНЫЙ
-
+val Grey1100 = Color(0xFF1c1b20)
 
 val Green900 = Color(0xFF01A33E)
 val Green800 = Color(0xFF0DD16D)
 val Green500 = Color(0xFFABF7D3)
 
 val LightBlue = Color(0xFFa1ebea)
+
+val Red500 = Color(0xFFea334c)

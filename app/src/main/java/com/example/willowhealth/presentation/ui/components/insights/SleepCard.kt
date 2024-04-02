@@ -1,6 +1,5 @@
 package com.example.willowhealth.presentation.ui.components.insights
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -31,7 +29,7 @@ import com.example.willowhealth.presentation.ui.theme.WillowTheme
 /**  Sleep Card **/
 
 @Composable
-fun SleepCard(hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
+fun SleepCard(title : String, hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
@@ -39,7 +37,7 @@ fun SleepCard(hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
         backgroundColor = MaterialTheme.colors.surface,
     ) {
         Column(modifier = Modifier.padding(12.dp, 8.dp)) {
-            Title(text = "Sleep")
+            Title(text = title)
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -58,7 +56,7 @@ fun SleepCard(hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
                                     fontSize = 28.sp
                                 )
                             ) {
-                                append("$hours")
+                                append("${hours / 3600}")
                             }
                             withStyle(
                                 style = SpanStyle(
@@ -75,7 +73,7 @@ fun SleepCard(hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
                                     fontSize = 28.sp
                                 )
                             ) {
-                                append("$mins")
+                                append("${mins % 3600 / 60}")
                             }
                             withStyle(
                                 style = SpanStyle(
@@ -114,7 +112,7 @@ fun SleepCard(hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
 @Composable
 fun SleepPreview() {
     WillowTheme(darkTheme = true) {
-        SleepCard(7, 0)
+        SleepCard("Sleep",7, 0)
     }
 
 }
