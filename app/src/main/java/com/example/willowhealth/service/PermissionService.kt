@@ -1,7 +1,6 @@
 package com.example.willowhealth.service
 
 import android.app.Activity
-import android.util.Log
 import com.example.willowhealth.repository.AccountRepository
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 
@@ -23,7 +22,6 @@ class PermissionServiceGoogleImpl(
     }
 
     override fun requestPermission() {
-        Log.e("TEST", "REQUEST PERMISSION")
         GoogleSignIn.requestPermissions(
             activity,
             GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,

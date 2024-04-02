@@ -1,5 +1,6 @@
 package com.example.willowhealth.presentation.ui.components.insights
 
+import android.graphics.Paint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,8 +12,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -25,13 +26,19 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.willowhealth.R
 import com.example.willowhealth.presentation.ui.theme.Grey500
+import com.example.willowhealth.presentation.ui.theme.Grey600
+import com.example.willowhealth.presentation.ui.theme.Grey800
 import com.example.willowhealth.presentation.ui.theme.LightBlue
 import com.example.willowhealth.utils.toShortString
 import java.time.DayOfWeek
@@ -52,41 +59,65 @@ internal fun BarChart(
     val borderColor = Grey500
     val density = LocalDensity.current
     val strokeWidth = with(density) { 1.dp.toPx() }
-
-    Card(
+    Column(
         modifier = modifier
             .fillMaxWidth()
-            .height(260.dp),
-        shape = RoundedCornerShape(20.dp),
+            .clip(RoundedCornerShape(20.dp))
+            .background(MaterialTheme.colors.surface),
     ) {
+
+        Text(
+            stringResource(R.string.sleep_duration_title),
+            modifier = Modifier.padding(16.dp, 8.dp),
+            style = MaterialTheme.typography.h6
+        )
+
         Box(
             modifier = Modifier
-                .padding(10.dp, 20.dp)
-                .height(maxHeight)
+                .fillMaxWidth()
+                .padding(5.dp, 20.dp, 5.dp, 0.dp)
+                .height(260.dp)
         ) {
-
             Row(
                 modifier = modifier
                     .fillMaxWidth()
                     .drawBehind {
                         drawLine(
                             color = borderColor,
-                            start = Offset(0f, size.height),
+                            start = Offset(30f, size.height),
                             end = Offset(size.width, size.height),
                             strokeWidth = strokeWidth
                         )
                         // draw Y-Axis
                         drawLine(
                             color = borderColor,
-                            start = Offset(0f, 0f),
-                            end = Offset(0f, size.height),
+                            start = Offset(30f, 0f),
+                            end = Offset(30f, size.height),
                             strokeWidth = strokeWidth
                         )
+
+                        val steps = 5
+                        val stepValue = maxValue / (steps - 1)
+                        val stepHeight = size.height / (steps - 1)
+                        for (i in 0 until steps) {
+                            val yPosition = size.height - (stepHeight * i)
+                            val value = stepValue * i / 3600
+                            drawContext.canvas.nativeCanvas.drawText(
+                                value.toString(),
+                                -4f,
+                                yPosition + density.run { 0.dp.toPx() }, Paint().apply {
+                                    color = Grey800.toArgb()
+                                    textSize = density.run { 12.dp.toPx() }
+                                    textAlign = Paint.Align.LEFT
+                                }
+                            )
+                        }
+
                     },
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom
             ) {
-
+                Spacer(modifier = Modifier.width(16.dp))
                 values.toList().sortedBy { day -> day.first }.forEach { (date, value) ->
                     val dayLabel = date.toShortString()
                     Bar(
@@ -107,8 +138,8 @@ internal fun BarChart(
                     .padding(8.dp, 0.dp)
             ) {
                 drawLine(
-                    color = borderColor,
-                    start = Offset(0f, averageLineY),
+                    color = Grey600,
+                    start = Offset(30f, averageLineY),
                     end = Offset(size.width, averageLineY),
                     strokeWidth = strokeWidth,
                     cap = StrokeCap.Round,
@@ -116,7 +147,6 @@ internal fun BarChart(
                 )
             }
         }
-
     }
 }
 
@@ -130,18 +160,20 @@ private fun RowScope.Bar(
     maxValue: Int
 ) {
     val itemHeight = remember(value) { value * maxHeight.value / maxValue }
+    val barWeight = 0.75f
+    val horizontalPadding = 8.dp
 
     Column(
         modifier = Modifier
-            .weight(1f)
-            .padding(horizontal = 5.dp)
+            .weight(barWeight)
+            .padding(horizontal = horizontalPadding)
             .clip(RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp))
             .background(color),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(
             modifier = Modifier
-                .height(itemHeight.dp + minHeight)
+                .height((itemHeight.dp + minHeight).coerceAtLeast(minHeight))
                 .fillMaxWidth()
                 .background(color)
         )
@@ -153,6 +185,7 @@ private fun RowScope.Bar(
         )
     }
 }
+
 
 @Preview
 @Composable

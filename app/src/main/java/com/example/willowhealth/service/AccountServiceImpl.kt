@@ -1,6 +1,8 @@
 package com.example.willowhealth.service
 
+import android.util.Log
 import com.example.willowhealth.data.datasource.AuthentificationSource
+import com.example.willowhealth.presentation.main.TAG
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
 
@@ -9,6 +11,7 @@ interface AccountService {
     suspend fun register(email: String, password: String): Boolean
     fun logout()
     fun getUser(): FirebaseUser?
+    fun resetPassword(email: String): Boolean
 }
 
 
@@ -21,6 +24,7 @@ open class AccountServiceImpl(private val authenticationSource: Authentification
                 .await()
             true
         } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
             false
         }
     }
@@ -51,6 +55,15 @@ open class AccountServiceImpl(private val authenticationSource: Authentification
 
     override fun getUser(): FirebaseUser? {
         return authenticationSource.getCurrentUser()
+    }
+
+    override fun resetPassword(email: String): Boolean {
+        return try {
+            authenticationSource.resetPassword(email)
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
 }

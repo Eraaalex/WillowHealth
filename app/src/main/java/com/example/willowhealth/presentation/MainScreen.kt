@@ -20,11 +20,15 @@ import com.example.willowhealth.app.INSIGHTS_SCREEN
 import com.example.willowhealth.app.SETTINGS_SCREEN
 import com.example.willowhealth.presentation.chat.ChatScreen
 import com.example.willowhealth.presentation.insights.InsightsScreen
+import com.example.willowhealth.presentation.settings.AppTheme
 import com.example.willowhealth.presentation.settings.SettingsScreen
 import com.example.willowhealth.presentation.ui.components.NavigationItems
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    selectedTheme: AppTheme,
+    onItemSelected: (AppTheme) -> Unit
+) {
     val surveyNavController = rememberNavController()
     Scaffold(
         bottomBar = {
@@ -76,7 +80,7 @@ fun MainScreen() {
                     ChatScreen()
                 }
                 composable(SETTINGS_SCREEN) {
-                    SettingsScreen()
+                    SettingsScreen(selectedTheme, onItemSelected)
                 }
 
             }

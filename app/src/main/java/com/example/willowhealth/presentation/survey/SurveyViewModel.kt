@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.willowhealth.main.SharedPreferencesManager
-import com.example.willowhealth.main.TAG
 import com.example.willowhealth.model.MissionData
 import com.example.willowhealth.model.SurveyData
+import com.example.willowhealth.presentation.main.SharedPreferencesManager
+import com.example.willowhealth.presentation.main.TAG
 import com.example.willowhealth.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,6 +1,5 @@
 package com.example.willowhealth.presentation.authentification
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -48,14 +47,9 @@ class LoginViewModel(private val accountService: AccountServiceImpl) : ViewModel
             val response = accountService.authenticate(email, password)
             if (response) {
                 navigateToMainScreen.value = true
-                Log.d("LoginViewModel", "[VW] true")
 
             } else {
                 snackbarMessage.value = "Sign-in failed. Please try again."
-                Log.d(
-                    "LoginViewModel", "[VW] falsea nd snackbar message"
-                            + snackbarMessage.value
-                )
             }
         }
     }
@@ -70,13 +64,8 @@ class LoginViewModel(private val accountService: AccountServiceImpl) : ViewModel
                 accountService.register(email, password)
             if (result) {
                 navigateToMainScreen.value = true
-                Log.d("LoginViewModel", "[VW] true")
             } else {
                 snackbarMessage.value = "Sign Up error, check your input data!"
-                Log.d(
-                    "LoginViewModel", "[VW] falsea nd snackbar message"
-                            + snackbarMessage.value
-                )
             }
         }
     }
@@ -105,6 +94,17 @@ class LoginViewModel(private val accountService: AccountServiceImpl) : ViewModel
 
     fun resetNavigationTrigger() {
         navigateToMainScreen.value = false
+    }
+
+    fun resetPassword(email: String) {
+        viewModelScope.launch {
+            val result = accountService.resetPassword(email)
+            if (result) {
+                snackbarMessage.value = "Password reset email sent!"
+            } else {
+                snackbarMessage.value = "Password reset failed!"
+            }
+        }
     }
 }
 

@@ -29,7 +29,7 @@ import com.example.willowhealth.presentation.ui.theme.WillowTheme
 /**  Sleep Card **/
 
 @Composable
-fun SleepCard(title : String, hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
+fun SleepCard(title: String, hours: Int = 0, mins: Int = 0, normalValue: Int = 8) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
@@ -112,7 +112,7 @@ fun SleepCard(title : String, hours: Int = 0, mins: Int = 0, normalValue: Int = 
 @Composable
 fun SleepPreview() {
     WillowTheme(darkTheme = true) {
-        SleepCard("Sleep",7, 0)
+        SleepCard("Sleep", 7, 0)
     }
 
 }

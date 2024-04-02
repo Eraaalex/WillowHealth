@@ -29,9 +29,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.willowhealth.R
 import com.example.willowhealth.app.AppRouter
 import com.example.willowhealth.app.Screen
 import com.example.willowhealth.presentation.ui.components.insights.MissionCard
@@ -50,7 +51,11 @@ fun SurveyScreen(viewModel: SurveyViewModel = koinViewModel()) {
     val timeStateForEnd = rememberTimePickerState(8, 0, false)
     val selectedDisturbances = remember { mutableStateOf(listOf<String>()) }
     val disturbances =
-        listOf("Woke up frequently", "Had difficulty falling asleep", "Experienced nightmares")
+        listOf(
+            stringResource(R.string.woke_up_frequently),
+            stringResource(R.string.had_difficulty_falling_asleep),
+            stringResource(R.string.experienced_nightmares)
+        )
 
     Column(
         modifier = Modifier
@@ -140,7 +145,7 @@ fun SleepQualityEstimationRow(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Row() {
+        Row {
             sleepQualityOptions.forEach { quality ->
                 RadioButton(
                     selected = quality == selectedQuality,
@@ -189,45 +194,24 @@ fun QuestionSleepDisturbances(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
+//            Text(
+//                text = ,
+//                style = MaterialTheme.typography.h6,
+//                modifier = Modifier.align(Alignment.CenterHorizontally)
+//            )
             Text(
-                text = "Sleep Disturbances",
-                style = MaterialTheme.typography.h6,
-                color = Color.Black
+                "Sleep Disturbances",
+                fontSize = MaterialTheme.typography.h6.fontSize,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-//            disturbances.forEach { disturbance ->
-//                Row(
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    modifier = Modifier.clickable {
-//                        if (selectedDisturbances.value.contains(disturbance)) {
-//                            selectedDisturbances.value =
-//                                selectedDisturbances.value.filter { it != disturbance }
-//                        } else {
-//                            selectedDisturbances.value = selectedDisturbances.value + disturbance
-//                        }
-//                        onDisturbancesSelected(selectedDisturbances.value)
-//                    }
-//                ) {
-//                    Checkbox(
-//                        checked = selectedDisturbances.value.contains(disturbance),
-//                        onCheckedChange = {
-//
-//                        }
-//                    )
-//                    Text(
-//                        text = disturbance,
-//                        style = MaterialTheme.typography.body1,
-//                        color = Color.Gray,
-//                        modifier = Modifier.padding(start = 16.dp)
-//                    )
-//                }
-//            }
             disturbances.forEach { disturbance ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.clickable {
                         val currentSelection = selectedDisturbances.value
                         if (currentSelection.contains(disturbance)) {
-                            selectedDisturbances.value = currentSelection.filter { it != disturbance }
+                            selectedDisturbances.value =
+                                currentSelection.filter { it != disturbance }
                         } else {
                             selectedDisturbances.value = currentSelection + disturbance
                         }
@@ -240,7 +224,8 @@ fun QuestionSleepDisturbances(
 
                             val currentSelection = selectedDisturbances.value
                             if (currentSelection.contains(disturbance)) {
-                                selectedDisturbances.value = currentSelection.filter { it != disturbance }
+                                selectedDisturbances.value =
+                                    currentSelection.filter { it != disturbance }
                             } else {
                                 selectedDisturbances.value = currentSelection + disturbance
                             }

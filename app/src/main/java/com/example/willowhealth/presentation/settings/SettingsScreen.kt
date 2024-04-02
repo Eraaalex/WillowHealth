@@ -19,14 +19,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.willowhealth.R
 import com.example.willowhealth.app.AppRouter
 import com.example.willowhealth.app.Screen
+import com.example.willowhealth.presentation.ui.components.BasicSpacer
+import com.example.willowhealth.presentation.ui.components.SwitchButton
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SettingsScreen( viewModel: SettingsViewModel = koinViewModel()) {
+fun SettingsScreen(
+    selectedTheme: AppTheme,
+    onItemSelected: (AppTheme) -> Unit, viewModel: SettingsViewModel = koinViewModel()
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -34,7 +41,7 @@ fun SettingsScreen( viewModel: SettingsViewModel = koinViewModel()) {
     ) {
         Icon(
             Icons.Rounded.AccountCircle,
-            contentDescription = "Account circle",
+            contentDescription = stringResource(R.string.account_circle),
             modifier = Modifier.size(100.dp),
         )
         Spacer(modifier = Modifier.padding(20.dp))
@@ -43,6 +50,19 @@ fun SettingsScreen( viewModel: SettingsViewModel = koinViewModel()) {
             style = MaterialTheme.typography.h6, color = MaterialTheme.colors.onSecondary
         )
         Spacer(modifier = Modifier.padding(20.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .background(color = MaterialTheme.colors.surface, shape = RoundedCornerShape(5)),
+        ) {
+            SettingsButton(text = stringResource(R.string.log_out)) {
+                viewModel.logOut()
+                AppRouter.navigateTo(Screen.LoginScreen)
+            }
+            SwitchButton(selectedTheme, onItemSelected)
+        }
+        BasicSpacer()
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -50,15 +70,12 @@ fun SettingsScreen( viewModel: SettingsViewModel = koinViewModel()) {
             shape = RoundedCornerShape(5),
             backgroundColor = MaterialTheme.colors.surface
         ) {
-            SettingsButton(text = "Log out") {
-                viewModel.logOut()
-                AppRouter.navigateTo(Screen.LoginScreen)
-            }
+
 
         }
-
     }
 }
+
 
 @Composable
 fun SettingsButton(text: String, onClick: () -> Unit) {
@@ -66,7 +83,6 @@ fun SettingsButton(text: String, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colors.surface),
-        contentAlignment = Alignment.Center,
     ) {
         Button(
             onClick = {
@@ -89,3 +105,4 @@ fun SettingsButton(text: String, onClick: () -> Unit) {
 fun SettingsButton() {
     SettingsButton("Log Out", {})
 }
+

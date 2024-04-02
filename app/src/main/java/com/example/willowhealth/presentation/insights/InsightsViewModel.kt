@@ -5,9 +5,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.willowhealth.main.TAG
 import com.example.willowhealth.model.HealthMetric
 import com.example.willowhealth.model.MissionData
+import com.example.willowhealth.presentation.main.TAG
 import com.example.willowhealth.repository.UserRepository
 import com.example.willowhealth.service.HealthDataManager
 import kotlinx.coroutines.launch
@@ -133,7 +133,6 @@ class InsightsViewModel(
                     endDate
                 ))
             }
-            Log.d("MyApp", "steps: ${_steps.value}")
         }
     }
 
@@ -143,6 +142,7 @@ class InsightsViewModel(
             try {
                 val mission = missions.value[number]
                 mission.isChecked = newIsChecked
+                userRepository.saveMissionData(mission)
                 userRepository.fetchMissionsData(1, number)
 
             } catch (e: Exception) {

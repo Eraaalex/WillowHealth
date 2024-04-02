@@ -20,6 +20,7 @@ interface HealthReader {
         endDate: Date,
         callback: (DatedHealthMetric) -> Unit
     )
+
     fun getCalories(
         startDate: Date,
         endDate: Date,
@@ -37,7 +38,7 @@ class GoogleFitReader(
             .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
             .addDataType(DataType.TYPE_SLEEP_SEGMENT, FitnessOptions.ACCESS_READ)
             .addDataType(DataType.TYPE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
-            .addDataType( DataType.AGGREGATE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
+            .addDataType(DataType.AGGREGATE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
             .build()
 
     }
@@ -50,7 +51,8 @@ class GoogleFitReader(
         val readRequest = DataReadRequest.Builder()
             .aggregate(
                 DataType.TYPE_STEP_COUNT_DELTA,
-                DataType.AGGREGATE_STEP_COUNT_DELTA)
+                DataType.AGGREGATE_STEP_COUNT_DELTA
+            )
             .setTimeRange(startDate.time, endDate.time, TimeUnit.MILLISECONDS)
             .bucketByTime(1, TimeUnit.DAYS)
             .build()
@@ -93,7 +95,6 @@ class GoogleFitReader(
         callback: (DatedHealthMetric) -> Unit
     ) {
         val readRequest = DataReadRequest.Builder()
-            // Use the calorie data types for aggregation
             .aggregate(DataType.TYPE_CALORIES_EXPENDED, DataType.AGGREGATE_CALORIES_EXPENDED)
             .setTimeRange(startDate.time, endDate.time, TimeUnit.MILLISECONDS)
             .bucketByTime(1, TimeUnit.DAYS)

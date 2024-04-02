@@ -12,7 +12,10 @@ import com.example.willowhealth.service.GPTService
 import com.example.willowhealth.utils.toGPTRequestForm
 import kotlinx.coroutines.launch
 
-class ChatViewModel(private val userRepository: UserRepository) : ViewModel() {
+class ChatViewModel(
+    private val userRepository: UserRepository,
+    private val gptService: GPTService
+) : ViewModel() {
     var message = mutableStateOf(TextFieldValue())
         private set
     var respond = mutableStateOf("")
@@ -23,14 +26,14 @@ class ChatViewModel(private val userRepository: UserRepository) : ViewModel() {
 
 
     private fun sendMessage(text: String, sendBy: MessageType = MessageType.SENT_BY_ME) {
-       Log.d("Chat", "sendMessage")
+        Log.d("Chat", "sendMessage")
         val currentMessages = chatMessages.value.toMutableList()
         currentMessages.add(Message(text, sendBy))
         Log.d("Chat", "add sendMessage")
         viewModelScope.launch {
             if (sendBy == MessageType.SENT_BY_ME) {
                 val intro = getIntroductionRequest()
-                respond.value = GPTService.getGPTResponse(intro + text)
+                respond.value = gptService.getGPTResponse(intro + text)
                 currentMessages.add(Message(respond.value, MessageType.SENT_BY_BOT))
             }
             Log.d("Chat", "update sendMessage")
@@ -54,7 +57,7 @@ class ChatViewModel(private val userRepository: UserRepository) : ViewModel() {
                     "Provide personalized advice or recommendations to help the respondent improve their sleep quality and overall well-being." +
                     "Survey Data: \n"
 
-        intro += userRepository.getSurveyData(7).forEach() {
+        intro += userRepository.getSurveyData(7).forEach {
             it.toGPTRequestForm()
         }
         return intro

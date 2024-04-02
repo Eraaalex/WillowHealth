@@ -5,7 +5,7 @@ import com.example.willowhealth.di.appModule
 import com.example.willowhealth.di.dataModule
 import com.example.willowhealth.di.repositoryModule
 import com.example.willowhealth.di.serviceModule
-import com.example.willowhealth.main.SharedPreferencesManager
+import com.example.willowhealth.presentation.main.SharedPreferencesManager
 import com.google.firebase.FirebaseApp
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

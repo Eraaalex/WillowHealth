@@ -14,7 +14,9 @@ interface AuthentificationSource {
 
     fun sendVerificationEmail()
     fun logout()
-    fun getName() : String
+    fun getName(): String
+
+    fun resetPassword(email: String): Task<Void>
 }
 
 class FirebaseAuthentificationSourceImpl : AuthentificationSource {
@@ -43,4 +45,7 @@ class FirebaseAuthentificationSourceImpl : AuthentificationSource {
         return auth.currentUser?.email ?: ""
     }
 
+    override fun resetPassword(email: String): Task<Void> {
+        return auth.sendPasswordResetEmail(email)
+    }
 }

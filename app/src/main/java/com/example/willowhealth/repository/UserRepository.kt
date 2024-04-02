@@ -2,10 +2,10 @@ package com.example.willowhealth.repository
 
 import android.util.Log
 import com.example.willowhealth.data.datasource.RealtimeSource
-import com.example.willowhealth.main.TAG
 import com.example.willowhealth.model.HealthMetric
 import com.example.willowhealth.model.MissionData
 import com.example.willowhealth.model.SurveyData
+import com.example.willowhealth.presentation.main.TAG
 import com.example.willowhealth.service.HealthDataManager
 import com.example.willowhealth.utils.getCurrentDayOfWeek
 import com.example.willowhealth.utils.toLocalDate
@@ -18,6 +18,8 @@ interface UserRepository {
     ): HashMap<DayOfWeek, Int>
 
     suspend fun getMissionData(week: Int = 1): List<MissionData>
+    suspend fun saveMissionData(userData: MissionData)
+
     suspend fun fetchMissionsData(week: Int, index: Int)
 
     suspend fun getSurveyData(days: Int = 7): List<SurveyData>
@@ -51,6 +53,10 @@ class UserRepositoryImpl(
             _missions = missions
             return missions
         }
+    }
+
+    override suspend fun saveMissionData(userData: MissionData) {
+        realtimeSource.updateMission(1, userData)
     }
 
     override suspend fun fetchMissionsData(week: Int, index: Int) {

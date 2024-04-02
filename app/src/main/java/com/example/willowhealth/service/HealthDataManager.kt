@@ -50,7 +50,10 @@ open class HealthDataManagerGoogleImpl(
         return resultData
     }
 
-    private suspend fun getCaloriesData(startDate: Date, endDate: Date): HashMap<String, HashMap<String, HashMap<String, Int>>> {
+    private suspend fun getCaloriesData(
+        startDate: Date,
+        endDate: Date
+    ): HashMap<String, HashMap<String, HashMap<String, Int>>> {
 
         val resultData: HashMap<String, HashMap<String, HashMap<String, Int>>> = hashMapOf()
 

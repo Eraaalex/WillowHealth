@@ -4,11 +4,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
-import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.ZoneId
 import java.util.Date
 import java.util.Locale
 
@@ -22,10 +19,6 @@ fun Date.getFormattingTime(pattern: String = "yyyy-MM-dd"): String {
 fun TimePickerState.toLocalTime(): LocalTime {
     return LocalTime.of(this.hour, this.minute)
 }
-
-fun Long.toLocalDateTime() =
-    LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
-
 
 fun getCurrentDayOfWeek(): DayOfWeek = LocalDate.now().dayOfWeek
 

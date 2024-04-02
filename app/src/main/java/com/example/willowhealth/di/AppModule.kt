@@ -1,9 +1,9 @@
 package com.example.willowhealth.di
 
-import com.example.willowhealth.main.MainViewModel
 import com.example.willowhealth.presentation.authentification.LoginViewModel
 import com.example.willowhealth.presentation.chat.ChatViewModel
 import com.example.willowhealth.presentation.insights.InsightsViewModel
+import com.example.willowhealth.presentation.main.MainViewModel
 import com.example.willowhealth.presentation.settings.SettingsViewModel
 import com.example.willowhealth.presentation.splash.SplashViewModel
 import com.example.willowhealth.presentation.survey.SurveyViewModel
@@ -17,5 +17,5 @@ val appModule = module {
     viewModel { SettingsViewModel(get()) }
     viewModel { SplashViewModel(get()) }
     viewModel { MainViewModel(get()) }
-    viewModel { ChatViewModel(get()) }
+    viewModel { ChatViewModel(get(), get()) }
 }

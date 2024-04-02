@@ -14,7 +14,9 @@ import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.willowhealth.R
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -40,32 +42,22 @@ fun QuestionSleepCard(
         ) {
             Text(
                 question,
-                fontSize = MaterialTheme.typography.h6.fontSize, // header size
+                fontSize = MaterialTheme.typography.h6.fontSize,
             )
             Text(
-                "From",
-                fontSize = MaterialTheme.typography.body1.fontSize, // subheader size
+                stringResource(R.string.from),
+                fontSize = MaterialTheme.typography.body1.fontSize,
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colors.onSecondary
             )
             TimeInputField(timeStateForStart)
             Text(
-                "To",
+                stringResource(R.string.to),
                 fontSize = MaterialTheme.typography.body1.fontSize,
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colors.onSecondary
             )
             TimeInputField(timeStateForEnd)
-//            Text(
-//                text = "Duration is ${
-//                    timeStateForEnd.hour - timeStateForStart.hour +
-//                            if (timeStateForEnd.hour < timeStateForStart.hour)
-//                                24
-//                            else
-//                                0
-//                } : " +
-//                        "${timeStateForEnd.minute - timeStateForStart.minute}"
-//            )
         }
     }
 }

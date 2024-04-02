@@ -8,7 +8,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.willowhealth.model.MissionData
@@ -42,7 +41,7 @@ fun MissionCard(
                                 }
                             }
                             selectedMissions.value = updatedList
-                            onUpdateMissionChecked(mission.number ?: 0, isChecked)
+                            onUpdateMissionChecked(mission.number, isChecked)
                         },
                         label = mission.missionShort
                     )

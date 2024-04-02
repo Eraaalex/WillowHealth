@@ -31,5 +31,14 @@
     <string name="password">Password</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
+    <string name="sleep_duration_title">Sleep Duration</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="account_circle">Account circle</string>
+    <string name="log_out">Log out</string>
+    <string name="woke_up_frequently">Woke up frequently</string>
+    <string name="had_difficulty_falling_asleep">Had difficulty falling asleep</string>
+    <string name="experienced_nightmares">Experienced nightmares</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
 
 </resources>

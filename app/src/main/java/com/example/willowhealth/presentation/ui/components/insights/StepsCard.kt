@@ -83,7 +83,6 @@ fun CheckboxOption(
 @Composable
 fun TriStateCheckboxSample() {
     Column {
-        // define dependent checkboxes states
         val (state, onStateChange) = remember { mutableStateOf(true) }
         val (state2, onStateChange2) = remember { mutableStateOf(true) }
 

@@ -1,10 +1,10 @@
 package com.example.willowhealth.data.datasource
 
 import android.util.Log
-import com.example.willowhealth.main.TAG
 import com.example.willowhealth.model.FirebaseData
 import com.example.willowhealth.model.MissionData
 import com.example.willowhealth.model.SurveyData
+import com.example.willowhealth.presentation.main.TAG
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.Query
@@ -15,8 +15,8 @@ interface RealtimeSource {
     suspend fun fetchMissionData(week: Int = 1): List<MissionData>
     suspend fun fetchSurveyData(days: Int = 7): List<SurveyData>
     fun saveSurveyData(userData: SurveyData)
-    suspend fun updateMission(week : Int, mission: MissionData)
-    fun getUserId() : String
+    suspend fun updateMission(week: Int, mission: MissionData)
+    fun getUserId(): String
 }
 
 class FirebaseRealtimeSourceImpl(private val authDataSource: AuthentificationSource) :
@@ -48,7 +48,7 @@ class FirebaseRealtimeSourceImpl(private val authDataSource: AuthentificationSou
         return dataList
     }
 
-    override fun getUserId() : String = authDataSource.getCurrentUser()?.uid ?: ""
+    override fun getUserId(): String = authDataSource.getCurrentUser()?.uid ?: ""
 
     override suspend fun fetchSurveyData(days: Int): List<SurveyData> {
         val period = System.currentTimeMillis() - days * 24 * 3600 * 1000
@@ -80,22 +80,7 @@ class FirebaseRealtimeSourceImpl(private val authDataSource: AuthentificationSou
         }
     }
 
-//    suspend fun fetchMissionsForWeek(week: Int): List<MissionData> {
-//        val userId = authDataSource.getCurrentUser()?.uid ?: ""
-//        val databaseReference = databaseReferenceMission
-//
-//        val snapshot = databaseReference.child(userId).child("Week" + week).get().await()
-//        val missions = mutableListOf<MissionData>()
-//
-//        for (childSnapshot in snapshot.children) {
-//            val mission = childSnapshot.getValue<MissionData>()
-//            mission?.let { missions.add(it) }
-//        }
-//
-//        return missions
-//    }
-
-    override suspend fun updateMission(week : Int, mission: MissionData) {
+    override suspend fun updateMission(week: Int, mission: MissionData) {
         val userId = authDataSource.getCurrentUser()?.uid ?: ""
         val updateMap = mapOf("isChecked" to mission.isChecked)
         databaseReferenceMission

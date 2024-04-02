@@ -9,10 +9,10 @@ import com.aallam.openai.api.chat.ChatRole
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import com.example.willowhealth.KEY
-import com.example.willowhealth.main.TAG
+import com.example.willowhealth.presentation.main.TAG
 
 
-object GPTService {
+class GPTService {
 
     private val CHAT_GPT_API_KEY = KEY // Key is defined in Key.kt
     private val openAI = OpenAI(CHAT_GPT_API_KEY)
